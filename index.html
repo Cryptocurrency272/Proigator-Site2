@@ -135,3 +135,37 @@ h2 {
     <div class="feature">🌫️ <strong>Real-time Animations</strong> — Mist, motion & harmony</div>
     <div class="feature">🎁 <strong>Referral Cashback</strong> — Invite and earn instantly</div>
   </section>  <section id="referral">
+    <h2>Referral Cashback</h2>
+    <p>Share your link and earn cashback when someone buys.</p>
+    <div class="referral-box">
+      <input type="text" id="referralLink" class="referral-input" readonly>
+      <button class="btn" onclick="copyReferral()">Copy Referral Link</button>
+    </div>
+  </section>  <script>
+    const address = window.location.origin;
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+
+    // Generate referral link with ?ref=address
+    const referralLink = `${address}?ref=${ref || 'your-address'}`;
+    document.getElementById("referralLink").value = referralLink;
+
+    function copyReferral() {
+      const input = document.getElementById("referralLink");
+      input.select();
+      input.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      alert("Referral link copied!");
+    }
+
+    // Scroll animation trigger
+    const features = document.querySelectorAll('.feature');
+    window.addEventListener('scroll', () => {
+      const trigger = window.innerHeight * 0.9;
+      features.forEach(feature => {
+        const top = feature.getBoundingClientRect().top;
+        if (top < trigger) feature.classList.add('visible');
+      });
+    });
+  </script></body>
+</html>
