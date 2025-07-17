@@ -1,43 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oriflame Token</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oriflame Token — VIP Experience</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }body {
+  font-family: 'Inter', sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+.mist-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://cdn.pixabay.com/photo/2017/08/30/07/52/fog-2695079_1280.png') repeat;
+  background-size: cover;
+  opacity: 0.07;
+  z-index: -1;
+  animation: moveFog 60s linear infinite;
+}
+
+@keyframes moveFog {
+  0% { background-position: 0 0; }
+  100% { background-position: 1000px 0; }
+}
+
+header {
+  text-align: center;
+  padding: 100px 20px 60px;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+p.subtitle {
+  font-size: 1.25rem;
+  color: #ccc;
+  max-width: 500px;
+  margin: 0 auto 40px;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  background: #fff;
+  color: #000;
+  font-weight: 600;
+  padding: 16px 28px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #00ffa6;
+  color: #000;
+  transform: translateY(-2px);
+}
+
+section {
+  padding: 80px 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.feature {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.feature.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.referral-box {
+  background: #111;
+  padding: 30px;
+  border-radius: 20px;
+  margin-top: 50px;
+}
+
+.referral-input {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+  </style>
 </head>
 <body>
-  <div id="mist-bg"></div>
-
-  <header class="hero section">
-    <h1 class="reveal">Oriflame Token</h1>
-    <p class="reveal">The most advanced nature-themed crypto experience</p>
-    <div class="buttons reveal">
-      <a href="#buy" class="btn">Buy Now</a>
-      <a href="#cashback" class="btn">Get Cashback</a>
+  <div class="mist-bg"></div>  <header>
+    <h1>Oriflame Token</h1>
+    <p class="subtitle">The most advanced nature-themed crypto experience</p>
+    <div class="btn-group">
+      <button class="btn">Buy Now</button>
+      <a href="#referral"><button class="btn">Get Cashback</button></a>
     </div>
-  </header>
-
-  <section class="section" id="why">
-    <h2 class="reveal">Why Oriflame?</h2>
-    <ul class="features">
-      <li class="reveal"><strong>Immersive Forest UI</strong> — Tranquility meets tech</li>
-      <li class="reveal"><strong>Real-time Animations</strong> — Mist, motion & harmony</li>
-      <li class="reveal"><strong>Referral Cashback</strong> — Invite and earn instantly</li>
-    </ul>
-  </section>
-
-  <section class="section" id="cashback">
-    <h2 class="reveal">Referral Cashback</h2>
-    <p class="reveal">Share your link and earn cashback when someone buys.</p>
-    <input type="text" id="refLink" readonly />
-    <button class="btn reveal" onclick="copyRef()">Copy Referral Link</button>
-  </section>
-
-  <footer class="section reveal">
-    <p>© 2025 Oriflame Token. All rights reserved.</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+  </header>  <section>
+    <h2>Why Oriflame?</h2>
+    <div class="feature">🌿 <strong>Immersive Forest UI</strong> — Tranquility meets tech</div>
+    <div class="feature">🌫️ <strong>Real-time Animations</strong> — Mist, motion & harmony</div>
+    <div class="feature">🎁 <strong>Referral Cashback</strong> — Invite and earn instantly</div>
+  </section>  <section id="referral">
