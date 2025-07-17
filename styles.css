@@ -1,62 +1,36 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?fit=crop&w=1500&q=80') no-repeat center center fixed;
-  background-size: cover;
-  color: white;
-  text-align: center;
-}
+/* styles.css */ @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
-.hero {
-  padding-top: 15vh;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding-bottom: 10vh;
-}
+body, html { margin: 0; padding: 0; height: 100%; font-family: 'Inter', sans-serif; background: #000; overflow-x: hidden; color: white; }
 
-.hero h1 {
-  font-size: 3rem;
-  margin: 0;
-}
+canvas#mist-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
 
-.hero p {
-  font-size: 1.3rem;
-  margin: 1rem 0;
-}
+.overlay { position: relative; z-index: 1; padding: 5vh 10vw; text-align: center; }
 
-button {
-  font-size: 1.2rem;
-  padding: 10px 25px;
-  background: #33cc99;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin: 1rem;
-}
+header { margin-top: 10vh; margin-bottom: 8vh; }
 
-button:hover {
-  background: #2ab387;
-}
+.title { font-size: 3.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem; color: #f0f0f0; }
 
-.features {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 2rem;
-  margin-top: 1rem;
-  border-radius: 20px;
-}
+.subtitle { font-size: 1.2rem; font-weight: 400; color: #ccc; }
 
-.features h2 {
-  font-size: 2rem;
-}
+.cta-buttons { margin-top: 2rem; display: flex; justify-content: center; gap: 1.5rem; }
 
-.features ul {
-  list-style: none;
-  padding: 0;
-}
+.btn { padding: 14px 36px; font-size: 1.1rem; font-weight: 600; border-radius: 40px; border: none; cursor: pointer; transition: all 0.3s ease; }
 
-.features li {
-  font-size: 1.1rem;
-  margin: 0.5rem 0;
-}
+.btn.buy { background: linear-gradient(to right, #33cc99, #28a585); color: white; box-shadow: 0 4px 15px rgba(0, 255, 170, 0.3); }
+
+.btn.buy:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0, 255, 170, 0.5); }
+
+.btn.cashback { background: transparent; border: 2px solid #33cc99; color: #33cc99; }
+
+.btn.cashback:hover { background: rgba(51, 204, 153, 0.1); transform: scale(1.05); }
+
+.features { margin-top: 10vh; background: rgba(255, 255, 255, 0.02); padding: 3rem; border-radius: 20px; box-shadow: 0 0 40px rgba(0,0,0,0.2); }
+
+.features h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+
+.features ul { list-style: none; padding: 0; }
+
+.features li { font-size: 1.1rem; margin: 0.8rem 0; color: #ddd; }
+
+footer { margin-top: 8vh; text-align: center; font-size: 0.9rem; color: #777; padding-bottom: 2rem; }
+
