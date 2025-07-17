@@ -1,36 +1,110 @@
-/* styles.css */ @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-body, html { margin: 0; padding: 0; height: 100%; font-family: 'Inter', sans-serif; background: #000; overflow-x: hidden; color: white; }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0e0e0e;
+  color: #f2f2f2;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-canvas#mist-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; }
+#mist-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://i.imgur.com/2zqOZj7.gif') center/cover no-repeat;
+  z-index: -1;
+  opacity: 0.12;
+  animation: slow-fade 40s ease-in-out infinite;
+}
 
-.overlay { position: relative; z-index: 1; padding: 5vh 10vw; text-align: center; }
+@keyframes slow-fade {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.2; }
+}
 
-header { margin-top: 10vh; margin-bottom: 8vh; }
+.section {
+  padding: 100px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
 
-.title { font-size: 3.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem; color: #f0f0f0; }
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
 
-.subtitle { font-size: 1.2rem; font-weight: 400; color: #ccc; }
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #ccc;
+}
 
-.cta-buttons { margin-top: 2rem; display: flex; justify-content: center; gap: 1.5rem; }
+.buttons {
+  display: flex;
+  gap: 20px;
+}
 
-.btn { padding: 14px 36px; font-size: 1.1rem; font-weight: 600; border-radius: 40px; border: none; cursor: pointer; transition: all 0.3s ease; }
+.btn {
+  padding: 14px 30px;
+  background: white;
+  color: black;
+  border-radius: 40px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
 
-.btn.buy { background: linear-gradient(to right, #33cc99, #28a585); color: white; box-shadow: 0 4px 15px rgba(0, 255, 170, 0.3); }
+.btn:hover {
+  transform: scale(1.05);
+  background: #f0f0f0;
+}
 
-.btn.buy:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0, 255, 170, 0.5); }
+.features {
+  list-style: none;
+  margin-top: 20px;
+}
 
-.btn.cashback { background: transparent; border: 2px solid #33cc99; color: #33cc99; }
+.features li {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
 
-.btn.cashback:hover { background: rgba(51, 204, 153, 0.1); transform: scale(1.05); }
+input#refLink {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  background: #1c1c1c;
+  color: #fff;
+}
 
-.features { margin-top: 10vh; background: rgba(255, 255, 255, 0.02); padding: 3rem; border-radius: 20px; box-shadow: 0 0 40px rgba(0,0,0,0.2); }
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+  padding: 40px 20px;
+}
 
-.features h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+/* Scroll-based animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
 
-.features ul { list-style: none; padding: 0; }
-
-.features li { font-size: 1.1rem; margin: 0.8rem 0; color: #ddd; }
-
-footer { margin-top: 8vh; text-align: center; font-size: 0.9rem; color: #777; padding-bottom: 2rem; }
-
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
