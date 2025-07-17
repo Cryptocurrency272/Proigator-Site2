@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?fit=crop&w=1500&q=80') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  text-align: center;
+}
+
+.hero {
+  padding-top: 15vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-bottom: 10vh;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  margin: 1rem 0;
+}
+
+button {
+  font-size: 1.2rem;
+  padding: 10px 25px;
+  background: #33cc99;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #2ab387;
+}
+
+.features {
+  background-color: rgba(0, 0, 0, 0.5);
