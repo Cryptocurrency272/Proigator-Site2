@@ -1,3 +1,4 @@
+/* Reset & Base Styles */
 body {
   margin: 0;
   padding: 0;
@@ -8,6 +9,7 @@ body {
   text-align: center;
 }
 
+/* Hero Section */
 .hero {
   padding-top: 15vh;
   background-color: rgba(0, 0, 0, 0.4);
@@ -24,6 +26,7 @@ body {
   margin: 1rem 0;
 }
 
+/* Button */
 button {
   font-size: 1.2rem;
   padding: 10px 25px;
@@ -39,5 +42,52 @@ button:hover {
   background: #2ab387;
 }
 
+/* Features Section */
 .features {
   background-color: rgba(0, 0, 0, 0.5);
+  padding: 60px 20px;
+}
+
+.features h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.feature-item {
+  margin: 20px auto;
+  max-width: 700px;
+  font-size: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.feature-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 8px 20px;
+  }
+
+  .features h2 {
+    font-size: 2rem;
+  }
+
+  .feature-item {
+    font-size: 1rem;
+    padding: 15px;
+  }
+}
