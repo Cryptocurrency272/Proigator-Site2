@@ -1,46 +1,51 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oriflame Token</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="navbar" id="navbar">
-    <div class="logo">Oriflame</div>
-    <div class="nav-links">
-      <a href="#hero">Home</a>
-      <a href="#why">Why</a>
-      <a href="#referral">Referral</a>
-      <a href="#wallet">Wallet</a>
+  <div class="mist-bg"></div>
+
+  <header class="nav">
+    <h1>Oriflame Token</h1>
+    <nav>
+      <a href="#cashback">Get Cashback</a>
+      <a href="#connect" class="wallet-btn">Connect Wallet</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>The most advanced nature-themed crypto experience</h2>
+    <div class="hero-buttons">
+      <button onclick="alert('Buy functionality coming soon')">Buy Now</button>
+      <a href="#cashback"><button>Get Cashback</button></a>
     </div>
-  </div>  <section class="hero parallax" id="hero">
-    <div class="mist"></div>
-    <div class="hero-content">
-      <h1>Oriflame Token</h1>
-      <p>The most advanced nature-themed crypto experience</p>
-      <div class="buttons">
-        <a href="#wallet" class="btn">Buy Now</a>
-        <a href="#referral" class="btn alt">Get Cashback</a>
-      </div>
-    </div>
-  </section>  <section class="why" id="why">
-    <h2>Why Oriflame?</h2>
+  </section>
+
+  <section class="why">
+    <h3>Why Oriflame?</h3>
     <ul>
       <li><strong>Immersive Forest UI</strong> — Tranquility meets tech</li>
       <li><strong>Real-time Animations</strong> — Mist, motion & harmony</li>
       <li><strong>Referral Cashback</strong> — Invite and earn instantly</li>
     </ul>
-  </section>  <section class="referral" id="referral">
-    <h2>Referral Cashback</h2>
+  </section>
+
+  <section id="cashback" class="cashback">
+    <h3>Referral Cashback</h3>
     <p>Share your link and earn cashback when someone buys.</p>
-    <input type="text" id="referralLink" readonly />
+    <input id="refLink" type="text" readonly />
     <button onclick="copyReferral()">Copy Referral Link</button>
-  </section>  <section class="wallet" id="wallet">
-    <h2>Wallet Connect</h2>
-    <p>Connect your wallet to get started.</p>
-    <button class="btn" onclick="connectWallet()">Connect Wallet</button>
-    <p id="walletAddress"></p>
-  </section>  <script src="script.js"></script></body>
+  </section>
+
+  <section id="connect" class="wallet-section">
+    <h3>Wallet Connect</h3>
+    <p>Coming soon: full wallet integration for secure purchase.</p>
+  </section>
+
+  <script src="script.js"></script>
+</body>
 </html>
