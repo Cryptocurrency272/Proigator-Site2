@@ -1,42 +1,43 @@
-<!DOCTYPE html><html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oriflame Token - Nature Crypto Experience</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="mist-bg">
-      <canvas id="mistCanvas"></canvas>
-    </div><header class="hero">
-  <div class="hero-content">
-    <h1>Oriflame Token</h1>
-    <p class="subtitle">The most advanced nature-themed crypto experience</p>
-    <div class="cta-buttons">
-      <button class="btn primary">Buy Now</button>
-      <button class="btn secondary">Get Cashback</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oriflame Token</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="mist-bg"></div>
+
+  <header class="hero section">
+    <h1 class="reveal">Oriflame Token</h1>
+    <p class="reveal">The most advanced nature-themed crypto experience</p>
+    <div class="buttons reveal">
+      <a href="#buy" class="btn">Buy Now</a>
+      <a href="#cashback" class="btn">Get Cashback</a>
     </div>
-  </div>
-</header>
+  </header>
 
-<section class="features">
-  <div class="feature-block">
-    <h2>Why Oriflame?</h2>
-    <ul>
-      <li><strong>Immersive Forest UI</strong> — Experience tranquility with tech</li>
-      <li><strong>Real-time Animations</strong> — Mist, motion & responsive feel</li>
-      <li><strong>Referral Cashback System</strong> — Invite and earn instantly</li>
-      <li><strong>Live Presale Dashboard</strong> — Launch-ready stats & analytics</li>
+  <section class="section" id="why">
+    <h2 class="reveal">Why Oriflame?</h2>
+    <ul class="features">
+      <li class="reveal"><strong>Immersive Forest UI</strong> — Tranquility meets tech</li>
+      <li class="reveal"><strong>Real-time Animations</strong> — Mist, motion & harmony</li>
+      <li class="reveal"><strong>Referral Cashback</strong> — Invite and earn instantly</li>
     </ul>
-  </div>
-</section>
+  </section>
 
-<footer class="footer">
-  <p>Copyright &copy; 2025 Oriflame Labs. All rights reserved.</p>
-</footer>
+  <section class="section" id="cashback">
+    <h2 class="reveal">Referral Cashback</h2>
+    <p class="reveal">Share your link and earn cashback when someone buys.</p>
+    <input type="text" id="refLink" readonly />
+    <button class="btn reveal" onclick="copyRef()">Copy Referral Link</button>
+  </section>
 
-<script src="mist.js"></script>
+  <footer class="section reveal">
+    <p>© 2025 Oriflame Token. All rights reserved.</p>
+  </footer>
 
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
