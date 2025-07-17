@@ -3,83 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proigator Token</title>
+  <title>Oriflame Token</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
 </head>
 <body>
 
-  <!-- Background Nature Sound -->
+  <!-- Nature Sound -->
   <audio autoplay loop>
     <source src="assets/nature-sounds.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <div class="hero">
-    <h1>🐊 Proigator Token</h1>
-    <p>The most advanced nature-themed crypto experience</p>
-    <button onclick="joinPresale()">Join Presale</button>
-    <br><br>
-    <button onclick="copyReferral()">Copy Your Referral Link</button>
-    <p id="ref-status" style="font-size: 1rem; margin-top: 10px;"></p>
+    <h1 id="title">🔥 Oriflame Token</h1>
+    <p id="subtitle">The most advanced nature-themed crypto experience</p>
+    <button id="presaleBtn">Join Presale</button>
   </div>
 
-  <!-- Features Section -->
+  <!-- Features -->
   <div class="features">
-    <h2>🌿 Why Proigator?</h2>
+    <h2>🌿 Why Oriflame?</h2>
     <ul>
-      <li>VIP dark forest UI</li>
+      <li>Hypie forest UI</li>
       <li>Relaxing motion & sounds</li>
-      <li>Early investors rewards</li>
-      <li>Real-time presale metrics</li>
+      <li>Cashback referral system</li>
+      <li>Live presale dashboard (soon)</li>
     </ul>
   </div>
 
-  <!-- Referral Cashback Section -->
+  <!-- Referral -->
   <div class="features">
     <h2>💸 Referral Cashback</h2>
-    <p>Invite and earn automatically when people buy through your link:</p>
+    <p>Invite and earn when friends buy:</p>
     <ul>
-      <li><strong>30%</strong> Direct Cashback — for buyers using your referral link</li>
-      <li><strong>5%</strong> Indirect Cashback — when your invitees refer others</li>
+      <li><strong>30%</strong> Direct Cashback</li>
+      <li><strong>5%</strong> Indirect Cashback</li>
     </ul>
   </div>
 
+  <!-- Connect Wallet -->
+  <button id="connectWallet">🔗 Connect Wallet</button>
+
+  <!-- Scripts -->
   <script>
-    let walletAddress = null;
-
-    // On load: capture ?ref=0x... from the URL
-    const params = new URLSearchParams(window.location.search);
-    const referrer = params.get("ref");
-    if (referrer) {
-      localStorage.setItem("referrer", referrer);
-    }
-
-    // Connect wallet
-    async function connectWallet() {
+    // Connect Wallet
+    document.getElementById("connectWallet").onclick = async () => {
       if (window.ethereum) {
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        walletAddress = accounts[0];
-        return walletAddress;
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          alert("Connected: " + accounts[0]);
+        } catch (err) {
+          alert("Connection failed");
+        }
       } else {
-        alert("Please install MetaMask or a Web3 wallet");
+        alert("MetaMask not detected");
       }
+    };
+
+    // Presale placeholder
+    document.getElementById("presaleBtn").onclick = () => {
+      alert("Presale Coming Soon!");
+    };
+
+    // Referral tracking
+    const ref = new URLSearchParams(window.location.search).get("ref");
+    if (ref) {
+      localStorage.setItem("oriflame_ref", ref);
+      console.log("Referral saved:", ref);
     }
 
-    // Simulated presale join
-    async function joinPresale() {
-      const user = await connectWallet();
-      const ref = localStorage.getItem("referrer");
-      alert(`✅ Presale Placeholder\nYour Wallet: ${user}\nReferred by: ${ref || "None"}`);
-    }
-
-    // Generate and copy referral link
-    async function copyReferral() {
-      const user = await connectWallet();
-      const url = `${window.location.origin}${window.location.pathname}?ref=${user}`;
-      await navigator.clipboard.writeText(url);
-      document.getElementById("ref-status").innerText = "🔗 Referral link copied!";
-    }
+    // GSAP animation
+    window.addEventListener("load", () => {
+      gsap.from("#title", { y: -50, opacity: 0, duration: 1 });
+      gsap.from("#subtitle", { y: 20, opacity: 0, delay: 0.3 });
+      gsap.from("button", { scale: 0.8, opacity: 0, delay: 0.6 });
+      gsap.from(".features", { opacity: 0, y: 30, duration: 1, delay: 1 });
+    });
   </script>
 </body>
 </html>
