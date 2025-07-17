@@ -1,171 +1,46 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oriflame Token — VIP Experience</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oriflame Token</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }body {
-  font-family: 'Inter', sans-serif;
-  background: #0a0a0a;
-  color: #fff;
-  overflow-x: hidden;
-}
-
-.mist-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('https://cdn.pixabay.com/photo/2017/08/30/07/52/fog-2695079_1280.png') repeat;
-  background-size: cover;
-  opacity: 0.07;
-  z-index: -1;
-  animation: moveFog 60s linear infinite;
-}
-
-@keyframes moveFog {
-  0% { background-position: 0 0; }
-  100% { background-position: 1000px 0; }
-}
-
-header {
-  text-align: center;
-  padding: 100px 20px 60px;
-}
-
-h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 20px;
-}
-
-p.subtitle {
-  font-size: 1.25rem;
-  color: #ccc;
-  max-width: 500px;
-  margin: 0 auto 40px;
-}
-
-.btn-group {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  background: #fff;
-  color: #000;
-  font-weight: 600;
-  padding: 16px 28px;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  background: #00ffa6;
-  color: #000;
-  transform: translateY(-2px);
-}
-
-section {
-  padding: 80px 20px;
-  max-width: 800px;
-  margin: auto;
-}
-
-h2 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-}
-
-.feature {
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  line-height: 1.6;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.feature.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.referral-box {
-  background: #111;
-  padding: 30px;
-  border-radius: 20px;
-  margin-top: 50px;
-}
-
-.referral-input {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  font-size: 1rem;
-}
-
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="mist-bg"></div>  <header>
-    <h1>Oriflame Token</h1>
-    <p class="subtitle">The most advanced nature-themed crypto experience</p>
-    <div class="btn-group">
-      <button class="btn">Buy Now</button>
-      <a href="#referral"><button class="btn">Get Cashback</button></a>
+  <div class="navbar" id="navbar">
+    <div class="logo">Oriflame</div>
+    <div class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#why">Why</a>
+      <a href="#referral">Referral</a>
+      <a href="#wallet">Wallet</a>
     </div>
-  </header>  <section>
+  </div>  <section class="hero parallax" id="hero">
+    <div class="mist"></div>
+    <div class="hero-content">
+      <h1>Oriflame Token</h1>
+      <p>The most advanced nature-themed crypto experience</p>
+      <div class="buttons">
+        <a href="#wallet" class="btn">Buy Now</a>
+        <a href="#referral" class="btn alt">Get Cashback</a>
+      </div>
+    </div>
+  </section>  <section class="why" id="why">
     <h2>Why Oriflame?</h2>
-    <div class="feature">🌿 <strong>Immersive Forest UI</strong> — Tranquility meets tech</div>
-    <div class="feature">🌫️ <strong>Real-time Animations</strong> — Mist, motion & harmony</div>
-    <div class="feature">🎁 <strong>Referral Cashback</strong> — Invite and earn instantly</div>
-  </section>  <section id="referral">
+    <ul>
+      <li><strong>Immersive Forest UI</strong> — Tranquility meets tech</li>
+      <li><strong>Real-time Animations</strong> — Mist, motion & harmony</li>
+      <li><strong>Referral Cashback</strong> — Invite and earn instantly</li>
+    </ul>
+  </section>  <section class="referral" id="referral">
     <h2>Referral Cashback</h2>
     <p>Share your link and earn cashback when someone buys.</p>
-    <div class="referral-box">
-      <input type="text" id="referralLink" class="referral-input" readonly>
-      <button class="btn" onclick="copyReferral()">Copy Referral Link</button>
-    </div>
-  </section>  <script>
-    const address = window.location.origin;
-    const params = new URLSearchParams(window.location.search);
-    const ref = params.get('ref');
-
-    // Generate referral link with ?ref=address
-    const referralLink = `${address}?ref=${ref || 'your-address'}`;
-    document.getElementById("referralLink").value = referralLink;
-
-    function copyReferral() {
-      const input = document.getElementById("referralLink");
-      input.select();
-      input.setSelectionRange(0, 99999);
-      document.execCommand("copy");
-      alert("Referral link copied!");
-    }
-
-    // Scroll animation trigger
-    const features = document.querySelectorAll('.feature');
-    window.addEventListener('scroll', () => {
-      const trigger = window.innerHeight * 0.9;
-      features.forEach(feature => {
-        const top = feature.getBoundingClientRect().top;
-        if (top < trigger) feature.classList.add('visible');
-      });
-    });
-  </script></body>
+    <input type="text" id="referralLink" readonly />
+    <button onclick="copyReferral()">Copy Referral Link</button>
+  </section>  <section class="wallet" id="wallet">
+    <h2>Wallet Connect</h2>
+    <p>Connect your wallet to get started.</p>
+    <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+    <p id="walletAddress"></p>
+  </section>  <script src="script.js"></script></body>
 </html>
