@@ -1,23 +1,25 @@
-// Scroll-based animations
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1 });
+// Scroll nav effect
+window.addEventListener("scroll", () => {
+  const nav = document.querySelector(".nav");
+  nav.classList.toggle("scrolled", window.scrollY > 50);
+});
 
-reveals.forEach(r => observer.observe(r));
-
-// Basic referral logic (placeholder)
-function copyRef() {
-  const base = window.location.href.split('?')[0];
-  const address = "0x123..."; // Replace with connected wallet address dynamically
-  const refLink = `${base}?ref=${address}`;
-  const refInput = document.getElementById('refLink');
-  refInput.value = refLink;
-  refInput.select();
-  document.execCommand('copy');
-  alert('Referral link copied!');
+// Referral logic
+function copyReferral() {
+  const url = new URL(window.location.href);
+  const refCode = localStorage.getItem("oriflame_ref") || "your-wallet-address";
+  url.searchParams.set("ref", refCode);
+  const refLink = url.toString();
+  const input = document.getElementById("refLink");
+  input.value = refLink;
+  input.select();
+  document.execCommand("copy");
+  alert("Referral link copied!");
 }
+
+// Set referral if ?ref= is present
+(function handleReferralParam() {
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get("ref");
+  if (ref) localStorage.setItem("oriflame_ref", ref);
+})();
