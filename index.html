@@ -1,86 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oriflame Token</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-</head>
-<body>
-
-  <!-- Nature Sound -->
-  <audio autoplay loop>
-    <source src="assets/nature-sounds.mp3" type="audio/mpeg" />
-    Your browser does not support the audio element.
-  </audio>
-
-  <!-- Hero -->
-  <div class="hero">
-    <h1 id="title">🔥 Oriflame Token</h1>
-    <p id="subtitle">The most advanced nature-themed crypto experience</p>
-    <button id="presaleBtn">Join Presale</button>
+<!DOCTYPE html><html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oriflame Token - Nature Crypto Experience</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="mist-bg">
+      <canvas id="mistCanvas"></canvas>
+    </div><header class="hero">
+  <div class="hero-content">
+    <h1>Oriflame Token</h1>
+    <p class="subtitle">The most advanced nature-themed crypto experience</p>
+    <div class="cta-buttons">
+      <button class="btn primary">Buy Now</button>
+      <button class="btn secondary">Get Cashback</button>
+    </div>
   </div>
+</header>
 
-  <!-- Features -->
-  <div class="features">
-    <h2>🌿 Why Oriflame?</h2>
+<section class="features">
+  <div class="feature-block">
+    <h2>Why Oriflame?</h2>
     <ul>
-      <li>Hypie forest UI</li>
-      <li>Relaxing motion & sounds</li>
-      <li>Cashback referral system</li>
-      <li>Live presale dashboard (soon)</li>
+      <li><strong>Immersive Forest UI</strong> — Experience tranquility with tech</li>
+      <li><strong>Real-time Animations</strong> — Mist, motion & responsive feel</li>
+      <li><strong>Referral Cashback System</strong> — Invite and earn instantly</li>
+      <li><strong>Live Presale Dashboard</strong> — Launch-ready stats & analytics</li>
     </ul>
   </div>
+</section>
 
-  <!-- Referral -->
-  <div class="features">
-    <h2>💸 Referral Cashback</h2>
-    <p>Invite and earn when friends buy:</p>
-    <ul>
-      <li><strong>30%</strong> Direct Cashback</li>
-      <li><strong>5%</strong> Indirect Cashback</li>
-    </ul>
-  </div>
+<footer class="footer">
+  <p>Copyright &copy; 2025 Oriflame Labs. All rights reserved.</p>
+</footer>
 
-  <!-- Connect Wallet -->
-  <button id="connectWallet">🔗 Connect Wallet</button>
+<script src="mist.js"></script>
 
-  <!-- Scripts -->
-  <script>
-    // Connect Wallet
-    document.getElementById("connectWallet").onclick = async () => {
-      if (window.ethereum) {
-        try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          alert("Connected: " + accounts[0]);
-        } catch (err) {
-          alert("Connection failed");
-        }
-      } else {
-        alert("MetaMask not detected");
-      }
-    };
-
-    // Presale placeholder
-    document.getElementById("presaleBtn").onclick = () => {
-      alert("Presale Coming Soon!");
-    };
-
-    // Referral tracking
-    const ref = new URLSearchParams(window.location.search).get("ref");
-    if (ref) {
-      localStorage.setItem("oriflame_ref", ref);
-      console.log("Referral saved:", ref);
-    }
-
-    // GSAP animation
-    window.addEventListener("load", () => {
-      gsap.from("#title", { y: -50, opacity: 0, duration: 1 });
-      gsap.from("#subtitle", { y: 20, opacity: 0, delay: 0.3 });
-      gsap.from("button", { scale: 0.8, opacity: 0, delay: 0.6 });
-      gsap.from(".features", { opacity: 0, y: 30, duration: 1, delay: 1 });
-    });
-  </script>
-</body>
+  </body>
 </html>
