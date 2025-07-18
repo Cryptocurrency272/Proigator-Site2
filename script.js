@@ -1,25 +1,37 @@
-// Scroll nav effect
-window.addEventListener("scroll", () => {
-  const nav = document.querySelector(".nav");
-  nav.classList.toggle("scrolled", window.scrollY > 50);
-});
+function scrollToReferral() {
+  document.getElementById("referral").scrollIntoView({ behavior: "smooth" });
+}
 
-// Referral logic
 function copyReferral() {
-  const url = new URL(window.location.href);
-  const refCode = localStorage.getItem("oriflame_ref") || "your-wallet-address";
-  url.searchParams.set("ref", refCode);
-  const refLink = url.toString();
-  const input = document.getElementById("refLink");
-  input.value = refLink;
+  const input = document.getElementById("referralLink");
   input.select();
   document.execCommand("copy");
   alert("Referral link copied!");
 }
 
-// Set referral if ?ref= is present
-(function handleReferralParam() {
-  const params = new URLSearchParams(window.location.search);
-  const ref = params.get("ref");
-  if (ref) localStorage.setItem("oriflame_ref", ref);
-})();
+async function connectWallet() {
+  if (typeof window.ethereum !== "undefined") {
+    try {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const chainId = await window.ethereum.request({ method: "eth_chainId" });
+
+      if (chainId !== "0x38") {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x38" }],
+        });
+      }
+
+      alert("Wallet connected!");
+    } catch (err) {
+      console.error(err);
+      alert("Connection failed.");
+    }
+  } else {
+    alert("Install MetaMask first!");
+  }
+}
+
+function buyNow() {
+  alert("Buy Now logic coming soon.");
+}
