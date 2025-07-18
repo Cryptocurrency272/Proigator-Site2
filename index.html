@@ -9,7 +9,19 @@
   <section id="referral" style="padding: 4rem 2rem; text-align: center;">
   <h2>Earn Referral Cashback</h2>
   <p>Share your link and earn when others buy Oriflame Token.</p>
+<section id="buy" style="text-align: center; padding: 4rem 2rem;">
+  <h2>Buy Oriflame Tokens</h2>
+  <p>Enter BNB amount and buy directly</p>
 
+  <input type="number" id="bnbAmount" placeholder="Amount in BNB" style="padding: 1rem; margin: 1rem 0; border-radius: 8px; border: none; max-width: 300px; width: 80%;" />
+  
+  <br />
+  <button onclick="buyTokens()" style="padding: 1rem 2rem; background: #ff7e5f; color: white; font-weight: bold; border: none; border-radius: 30px;">
+    Buy Now
+  </button>
+  
+  <div id="buyStatus" style="margin-top: 1rem; font-size: 0.95rem;"></div>
+</section>
   <input type="text" id="referralLink" readonly style="margin-top: 1rem; padding: 1rem; border-radius: 8px; width: 80%; max-width: 500px;" />
 
   <br /><br />
