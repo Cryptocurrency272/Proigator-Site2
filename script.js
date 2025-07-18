@@ -68,21 +68,63 @@ let signer;
 let contract;
 
 // Initialize connection
+<script type="module">
+import { ethers } from "https://cdn.skypack.dev/ethers@5.7.2";
+
+// WalletConnect provider setup
+import WalletConnectProvider from "https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js";
+
+// Web3Modal setup
+import Web3Modal from "https://cdn.jsdelivr.net/npm/web3modal@1.9.5/dist/index.js";
+
+// Contract Info
+const CONTRACT_ADDRESS = "YOUR_CONTRACT_ADDRESS";
+const ABI = [ /* your ABI here */ ];
+
+let provider;
+let signer;
+let contract;
+
+// Connect wallet function
 async function connectWallet() {
-  if (window.ethereum) {
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    signer = provider.getSigner();
-    contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-    document.getElementById("buyStatus").innerText = "Wallet connected.";
-  } else {
-    alert("Please install MetaMask or another wallet!");
-  }
+  const providerOptions = {
+    walletconnect: {
+      package: WalletConnectProvider,
+      options: {
+        rpc: {
+          56: "https://bsc-dataseed.binance.org/"
+        },
+        chainId: 56
+      }
+    }
+  };
+
+  const web3Modal = new Web3Modal.default({
+    cacheProvider: false,
+    providerOptions,
+  });
+
+  const instance = await web3Modal.connect();
+  provider = new ethers.providers.Web3Provider(instance);
+  signer = provider.getSigner();
+  contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+
+  const address = await signer.getAddress();
+  document.getElementById("userWallet").textContent = address;
+  document.getElementById("walletInfo").style.display = "block";
+
+  updateWalletDisplay();
 }
-await provider.send("eth_requestAccounts", []);
-signer = provider.getSigner();
-contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-updateWalletDisplay();
+
+// Display balance
+async function updateWalletDisplay() {
+  const address = await signer.getAddress();
+  const balance = await contract.balanceOf(address);
+  document.getElementById("userBalance").textContent = ethers.utils.formatUnits(balance, 18);
+}
+
+document.getElementById("connectBtn").addEventListener("click", connectWallet);
+</script>
 // Buy tokens
 async function buyTokens() {
   try {
