@@ -40,3 +40,43 @@ function copyReferral() { const input = document.getElementById('referralLink');
 // Parse referral from URL function detectReferral() { const urlParams = new URLSearchParams(window.location.search); const ref = urlParams.get('ref'); if (ref) { localStorage.setItem('referrer', ref); } }
 
 window.addEventListener('DOMContentLoaded', () => { detectReferral(); });
+const CONTRACT_ADDRESS = "0xYourContractAddress"; // ← Replace with your real deployed contract
+const ABI = [ /* your contract ABI here */ ];
+
+let provider;
+let signer;
+let contract;
+
+// Initialize connection
+async function connectWallet() {
+  if (window.ethereum) {
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    signer = provider.getSigner();
+    contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    document.getElementById("buyStatus").innerText = "Wallet connected.";
+  } else {
+    alert("Please install MetaMask or another wallet!");
+  }
+}
+
+// Buy tokens
+async function buyTokens() {
+  try {
+    if (!signer) await connectWallet();
+
+    const bnb = document.getElementById("bnbAmount").value;
+    const valueInWei = ethers.utils.parseEther(bnb);
+    
+    let ref = localStorage.getItem("oriflame_ref") || ethers.constants.AddressZero;
+
+    const tx = await contract.buyTokens(ref, { value: valueInWei });
+    document.getElementById("buyStatus").innerText = "Transaction sent. Waiting for confirmation...";
+
+    await tx.wait();
+    document.getElementById("buyStatus").innerText = "Success! Tokens purchased.";
+  } catch (err) {
+    console.error(err);
+    document.getElementById("buyStatus").innerText = "Error: " + err.message;
+  }
+}
