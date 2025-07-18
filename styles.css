@@ -52,4 +52,20 @@ button { cursor: pointer; font-weight: bold; }
   font-size: 1rem;
   margin-bottom: 1rem;
 }
+.tilt {
+  will-change: transform;
+  transition: transform 0.2s ease;
+  box-shadow: 0 0 15px #ffaa0088;
+}
 
+.wallet-display {
+  padding: 1rem;
+  border-radius: 12px;
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #fff7cc;
+  background: rgba(255, 200, 120, 0.1);
+  border: 1px solid #ffaa00;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
