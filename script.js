@@ -1,37 +1,11 @@
-function scrollToReferral() {
-  document.getElementById("referral").scrollIntoView({ behavior: "smooth" });
-}
+// script.js
 
-function copyReferral() {
-  const input = document.getElementById("referralLink");
-  input.select();
-  document.execCommand("copy");
-  alert("Referral link copied!");
-}
+// Scroll to section utility function scrollToSection(id) { const el = document.getElementById(id); if (el) { el.scrollIntoView({ behavior: 'smooth' }); } }
 
-async function connectWallet() {
-  if (typeof window.ethereum !== "undefined") {
-    try {
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-      const chainId = await window.ethereum.request({ method: "eth_chainId" });
+// Referral Logic function generateReferralLink() { const base = window.location.origin + window.location.pathname; const account = localStorage.getItem('walletAddress'); if (account) { document.getElementById('referralLink').value = ${base}?ref=${account}; } }
 
-      if (chainId !== "0x38") {
-        await window.ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x38" }],
-        });
-      }
+function copyReferral() { const input = document.getElementById('referralLink'); input.select(); document.execCommand('copy'); alert('Referral link copied!'); }
 
-      alert("Wallet connected!");
-    } catch (err) {
-      console.error(err);
-      alert("Connection failed.");
-    }
-  } else {
-    alert("Install MetaMask first!");
-  }
-}
+// Parse referral from URL function detectReferral() { const urlParams = new URLSearchParams(window.location.search); const ref = urlParams.get('ref'); if (ref) { localStorage.setItem('referrer', ref); } }
 
-function buyNow() {
-  alert("Buy Now logic coming soon.");
-}
+window.addEventListener('DOMContentLoaded', () => { detectReferral(); });
