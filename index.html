@@ -6,37 +6,32 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <canvas id="mist-canvas"></canvas>
-  <div class="fog-overlay"></div>
-  <div class="parallax">
-    <img src="https://i.ibb.co/L6W0M7W/forest-back.png" class="layer" data-depth="0.1">
-    <img src="https://i.ibb.co/d2Sh9Lk/forest-mid.png" class="layer" data-depth="0.3">
-    <img src="https://i.ibb.co/GkTbDgY/forest-front.png" class="layer" data-depth="0.6">
-  </div>  <header class="navbar">
-    <div class="logo">ORIFLAME</div>
+  <!-- Animated Gradient Sunset Background -->
+  <div class="sunset-bg"></div>
+  <div class="sun-overlay"></div>  <!-- Navbar -->  <header class="navbar">
+    <div class="logo">Oriflame</div>
     <nav>
+      <a href="#buy">Buy</a>
       <a href="#referral">Referral</a>
       <button id="connectWallet">Connect Wallet</button>
     </nav>
-  </header>  <section class="hero">
-    <h1>Welcome to <span>Oriflame Token</span></h1>
-    <p>Experience the immersive forest-based crypto ecosystem</p>
+  </header>  <!-- Hero Section -->  <section class="hero">
+    <h1>Welcome to Oriflame Token</h1>
+    <p>The sunset-inspired token experience</p>
     <div class="cta">
-      <button onclick="scrollToBuy()">Buy Now</button>
-      <button onclick="scrollToReferral()">Get Cashback</button>
+      <button onclick="scrollToSection('buy')">Buy Now</button>
+      <button onclick="scrollToSection('referral')">Get Cashback</button>
     </div>
-  </section>  <section class="features" id="features">
-    <h2>Why Oriflame?</h2>
-    <ul>
-      <li><strong>Immersive Forest UI</strong> &mdash; Tranquility meets tech</li>
-      <li><strong>Real-time Animations</strong> &mdash; Mist, motion & harmony</li>
-      <li><strong>Referral Cashback</strong> &mdash; Invite and earn instantly</li>
-    </ul>
-  </section>  <section id="referral">
-    <h2>Referral Cashback</h2>
-    <p>Share your link and earn cashback when someone buys.</p>
+  </section>  <!-- Token Purchase Section -->  <section id="buy" class="buy-section">
+    <h2>Buy Oriflame Tokens</h2>
+    <p>Connect your wallet and purchase securely</p>
+    <input type="number" id="amount" placeholder="Amount in ETH" />
+    <button id="buyToken">Buy Token</button>
+    <div class="wallet-display" id="walletDisplay"></div>
+  </section>  <!-- Referral System -->  <section id="referral" class="referral-section">
+    <h2>Your Referral Link</h2>
+    <p>Share this link and earn up to 30% cashback</p>
     <input type="text" id="referralLink" readonly />
-    <button onclick="copyReferral()">Copy Referral Link</button>
-    <p class="wallet-display" id="walletDisplay"></p>
-  </section>  <script src="mist.js"></script>  <script src="wallet.js"></script>  <script src="script.js"></script></body>
+    <button onclick="copyReferral()">Copy Link</button>
+  </section>  <!-- Scripts -->  <script src="script.js"></script>  <script src="wallet.js"></script></body>
 </html>
