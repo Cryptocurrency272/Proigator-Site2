@@ -59,7 +59,10 @@ async function connectWallet() {
     alert("Please install MetaMask or another wallet!");
   }
 }
-
+await provider.send("eth_requestAccounts", []);
+signer = provider.getSigner();
+contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+updateWalletDisplay();
 // Buy tokens
 async function buyTokens() {
   try {
@@ -88,7 +91,9 @@ async function updateWalletDisplay() {
 
   const balance = await contract.balanceOf(address);
   document.getElementById("tokenBalance").innerText = ethers.utils.formatUnits(balance, 18);
-
+await tx.wait();
+document.getElementById("buyStatus").innerText = "Success! Tokens purchased.";
+updateWalletDisplay();
   // Optional: Vesting logic
   if (contract.claimable) {
     try {
