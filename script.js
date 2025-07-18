@@ -80,3 +80,24 @@ async function buyTokens() {
     document.getElementById("buyStatus").innerText = "Error: " + err.message;
   }
 }
+async function updateWalletDisplay() {
+  if (!signer) return;
+
+  const address = await signer.getAddress();
+  document.getElementById("walletAddress").innerText = `Connected: ${address}`;
+
+  const balance = await contract.balanceOf(address);
+  document.getElementById("tokenBalance").innerText = ethers.utils.formatUnits(balance, 18);
+
+  // Optional: Vesting logic
+  if (contract.claimable) {
+    try {
+      const claimable = await contract.claimable(address);
+      document.getElementById("claimableAmount").innerText = ethers.utils.formatUnits(claimable, 18);
+    } catch (e) {
+      document.getElementById("vestingStatus").innerText = "Vesting info not available.";
+    }
+  } else {
+    document.getElementById("vestingStatus").style.display = "none";
+  }
+}
