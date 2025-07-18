@@ -5,43 +5,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oriflame Token</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3modal@1.9.12/dist/index.min.js"></script>
 </head>
 <body>
-  <div id="fog-layer"></div>
-  <canvas id="mist-canvas"></canvas>
 
+  <!-- Mist Canvas + Fog -->
+  <canvas id="mist-canvas"></canvas>
+  <div class="fog-overlay"></div>
+
+  <!-- Parallax Forest Background -->
+  <div class="parallax">
+    <img src="https://i.ibb.co/L6W0M7W/forest-back.png" class="layer" data-depth="0.1">
+    <img src="https://i.ibb.co/d2Sh9Lk/forest-mid.png" class="layer" data-depth="0.3">
+    <img src="https://i.ibb.co/GkTbDgY/forest-front.png" class="layer" data-depth="0.6">
+  </div>
+
+  <!-- Navigation -->
   <header class="navbar">
-    <h1>Oriflame <span>Token</span></h1>
+    <div class="logo">Oriflame</div>
     <nav>
-      <a href="#referral">Get Cashback</a>
-      <a href="#" onclick="connectWallet()">Connect Wallet</a>
+      <a href="#referral">Referral</a>
+      <button id="connectWallet">Connect Wallet</button>
     </nav>
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
-    <h2>The most advanced nature-themed crypto experience</h2>
-    <div class="cta-buttons">
-      <button onclick="buyNow()">Buy Now</button>
-      <button onclick="scrollToReferral()">Get Cashback</button>
+    <h1>Welcome to Oriflame Token</h1>
+    <p>Experience the immersive forest-based crypto ecosystem</p>
+    <div class="cta">
+      <button class="buy-btn">Buy Now</button>
+      <button class="cashback-btn" onclick="scrollToReferral()">Get Cashback</button>
     </div>
   </section>
 
+  <!-- Features -->
   <section class="features">
-    <h3>Why Oriflame?</h3>
+    <h2>Why Oriflame?</h2>
     <ul>
-      <li><strong>Immersive Forest UI</strong> — Tranquility meets tech</li>
-      <li><strong>Real-time Animations</strong> — Mist, motion & harmony</li>
-      <li><strong>Referral Cashback</strong> — Invite and earn instantly</li>
+      <li>Spooky animated parallax forest UI</li>
+      <li>Dynamic mist & fog background</li>
+      <li>Multi-wallet connect (MetaMask, WalletConnect, Coinbase)</li>
+      <li>30% referral cashback</li>
+      <li>Built for presale and staking integration</li>
     </ul>
   </section>
 
+  <!-- Referral Section -->
   <section id="referral">
-    <h3>Referral Cashback</h3>
-    <p>Share your link and earn cashback when someone buys.</p>
-    <input type="text" id="referralLink" readonly value="https://oriflame.io/?ref=0x..." />
-    <button onclick="copyReferral()">Copy Referral Link</button>
+    <h2>Your Referral Link</h2>
+    <input type="text" id="referralLink" readonly value="https://oriflame.io/?ref=0xYourWalletAddress" />
+    <button onclick="copyReferral()">Copy</button>
+    <div id="walletAddress" class="wallet-display"></div>
   </section>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
   <script src="mist.js"></script>
 </body>
