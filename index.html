@@ -6,6 +6,27 @@
   <title>Oriflame Token</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+  <!-- Wallet Balance Display -->
+<div id="walletInfo" class="wallet-display" style="display:none;" data-aos="fade-in">
+  Wallet: <span id="userWallet"></span><br>
+  Balance: <span id="userBalance">0</span> $ORIF
+</div>
+
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init();</script>
+
+<!-- Vanilla Tilt for Cursor Interaction -->
+<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+<script>
+  VanillaTilt.init(document.querySelectorAll(".tilt"), {
+    max: 10,
+    speed: 400,
+    glare: true,
+    "max-glare": 0.4
+  });
+</script>
 <body>
   <section id="referral" style="padding: 4rem 2rem; text-align: center;">
   <h2>Earn Referral Cashback</h2>
