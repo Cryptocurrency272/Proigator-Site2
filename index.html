@@ -2,30 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oriflame Token</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="mist-bg"></div>
+  <div id="fog-layer"></div>
+  <canvas id="mist-canvas"></canvas>
 
-  <header class="nav">
-    <h1>Oriflame Token</h1>
+  <header class="navbar">
+    <h1>Oriflame <span>Token</span></h1>
     <nav>
-      <a href="#cashback">Get Cashback</a>
-      <a href="#connect" class="wallet-btn">Connect Wallet</a>
+      <a href="#referral">Get Cashback</a>
+      <a href="#" onclick="connectWallet()">Connect Wallet</a>
     </nav>
   </header>
 
   <section class="hero">
     <h2>The most advanced nature-themed crypto experience</h2>
-    <div class="hero-buttons">
-      <button onclick="alert('Buy functionality coming soon')">Buy Now</button>
-      <a href="#cashback"><button>Get Cashback</button></a>
+    <div class="cta-buttons">
+      <button onclick="buyNow()">Buy Now</button>
+      <button onclick="scrollToReferral()">Get Cashback</button>
     </div>
   </section>
 
-  <section class="why">
+  <section class="features">
     <h3>Why Oriflame?</h3>
     <ul>
       <li><strong>Immersive Forest UI</strong> — Tranquility meets tech</li>
@@ -34,18 +35,14 @@
     </ul>
   </section>
 
-  <section id="cashback" class="cashback">
+  <section id="referral">
     <h3>Referral Cashback</h3>
     <p>Share your link and earn cashback when someone buys.</p>
-    <input id="refLink" type="text" readonly />
+    <input type="text" id="referralLink" readonly value="https://oriflame.io/?ref=0x..." />
     <button onclick="copyReferral()">Copy Referral Link</button>
   </section>
 
-  <section id="connect" class="wallet-section">
-    <h3>Wallet Connect</h3>
-    <p>Coming soon: full wallet integration for secure purchase.</p>
-  </section>
-
   <script src="script.js"></script>
+  <script src="mist.js"></script>
 </body>
 </html>
