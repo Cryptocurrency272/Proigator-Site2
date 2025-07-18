@@ -1,23 +1,37 @@
-// mist.js const canvas = document.getElementById('mist-bg'); const ctx = canvas.getContext('2d');
+const canvas = document.getElementById("mist-canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-let width = canvas.width = window.innerWidth; let height = canvas.height = window.innerHeight;
+let mistParticles = [];
 
-const particles = []; const totalParticles = 50;
+for (let i = 0; i < 100; i++) {
+  mistParticles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    radius: Math.random() * 70 + 30,
+    dx: (Math.random() - 0.5) * 0.5,
+    dy: (Math.random() - 0.5) * 0.5,
+    opacity: Math.random() * 0.1 + 0.02,
+  });
+}
 
-class Particle { constructor() { this.reset(); } reset() { this.x = Math.random() * width; this.y = Math.random() * height; this.radius = 60 + Math.random() * 90; this.opacity = 0.04 + Math.random() * 0.05; this.speed = 0.2 + Math.random() * 0.3; } update() { this.x += this.speed; if (this.x - this.radius > width) { this.reset(); this.x = -this.radius; } } draw() { const gradient = ctx.createRadialGradient(this.x, this.y, this.radius * 0.3, this.x, this.y, this.radius); gradient.addColorStop(0, rgba(255,255,255,${this.opacity})); gradient.addColorStop(1, 'rgba(255,255,255,0)');
+function drawMist() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let p of mistParticles) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+    ctx.fill();
+    p.x += p.dx;
+    p.y += p.dy;
 
-ctx.beginPath();
-ctx.fillStyle = gradient;
-ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-ctx.fill();
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y > canvas.height) p.y = 0;
+    if (p.x < 0) p.x = canvas.width;
+    if (p.y < 0) p.y = canvas.height;
+  }
+  requestAnimationFrame(drawMist);
+}
 
-} }
-
-for (let i = 0; i < totalParticles; i++) { particles.push(new Particle()); }
-
-function animate() { ctx.clearRect(0, 0, width, height); for (const p of particles) { p.update(); p.draw(); } requestAnimationFrame(animate); }
-
-window.addEventListener('resize', () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; });
-
-animate();
-
+drawMist();
