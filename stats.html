@@ -22,7 +22,7 @@
 
   <section class="hero">
     <h1>Referral Stats</h1>
-    <p>Paste your wallet address to view your referral performance.</p>
+    <p>Paste your wallet address to view referral performance.</p>
     <input type="text" id="refStatsInput" placeholder="Enter your wallet address" />
     <button onclick="loadReferralStats()">Check Stats</button>
   </section>
@@ -41,6 +41,7 @@
   <!-- Scripts -->
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
   <script src="contract-config.js"></script>
+
   <script>
     async function loadReferralStats() {
       const input = document.getElementById("refStatsInput").value.trim();
@@ -53,9 +54,9 @@
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
 
       try {
-        const bnbReferred = await contract.totalReferredBNB(input);
-        const cashback = await contract.totalCashbackEarned(input);
-        const refCount = await contract.totalReferrals(input);
+        const bnbReferred = await contract.totalReferredBNB?.(input) ?? 0;
+        const cashback = await contract.totalCashbackEarned?.(input) ?? 0;
+        const refCount = await contract.totalReferrals?.(input) ?? 0;
 
         document.getElementById("bnbReferred").innerText = ethers.utils.formatEther(bnbReferred);
         document.getElementById("cashbackEarned").innerText = ethers.utils.formatEther(cashback);
@@ -64,7 +65,7 @@
         document.getElementById("refStatsResult").style.display = "block";
       } catch (err) {
         console.error("Referral stats error", err);
-        alert("Unable to fetch referral stats.");
+        alert("Unable to fetch referral stats. Ensure contract includes totalReferredBNB, totalCashbackEarned, and totalReferrals.");
       }
     }
   </script>
