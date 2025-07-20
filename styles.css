@@ -1,53 +1,70 @@
-/* Reset & Base */
+document.addEventListener("DOMContentLoaded", async () => { const connectButton = document.getElementById("connectBtn"); const referralInput = document.getElementById("referralInput"); const generateBtn = document.getElementById("generateBtn"); const copyBtn = document.getElementById("copyBtn"); const referralLinkDisplay = document.getElementById("referralLink"); const buyButton = document.getElementById("buyBtn"); const amountInput = document.getElementById("amountInput");
 
-{ margin: 0; padding: 0; box-sizing: border-box; }
+const userBalanceEl = document.getElementById("userBalance"); const claimableEl = document.getElementById("claimableTokens"); const totalSupplyEl = document.getElementById("totalSupply");
 
+const providerOptions = { walletconnect: { package: window.WalletConnectProvider.default, options: { rpc: { 56: "https://bsc-dataseed.binance.org/" }, chainId: 56 } } };
 
-body, html { height: 100%; font-family: 'Segoe UI', sans-serif; color: #fff; background: #1e0f12; overflow-x: hidden; position: relative; }
+const web3Modal = new window.Web3Modal.default({ cacheProvider: false, providerOptions });
 
-/* Background Effects */ .sunset-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: linear-gradient(120deg, #2c0913, #3b0a17, #1a0206); animation: gradientFlow 20s ease infinite; background-size: 400% 400%; }
+let web3; let selectedAccount; const CONTRACT_ADDRESS = "0xF4c4fA2E899B98489f399Cb521B28220076E1F88"; const ABI = [ // ERC20 Functions { "constant": true, "inputs": [], "name": "name", "outputs": [{ "name": "", "type": "string" }], "type": "function" }, { "constant": true, "inputs": [], "name": "symbol", "outputs": [{ "name": "", "type": "string" }], "type": "function" }, { "constant": true, "inputs": [], "name": "decimals", "outputs": [{ "name": "", "type": "uint8" }], "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [{ "name": "", "type": "uint256" }], "type": "function" }, { "constant": true, "inputs": [{ "name": "account", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "", "type": "uint256" }], "type": "function" },
 
-.sun-overlay { position: fixed; top: 10%; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, #ff3c00cc, #ff7700aa); z-index: -1; filter: blur(60px); opacity: 0.4; animation: pulse 6s ease-in-out infinite; }
+// Vesting
+{ "constant": true, "inputs": [{ "name": "account", "type": "address" }], "name": "claimable", "outputs": [{ "name": "", "type": "uint256" }], "type": "function" },
+{ "constant": false, "inputs": [], "name": "claim", "outputs": [], "type": "function" }
 
-/* Animations */ @keyframes gradientFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+];
 
-@keyframes pulse { 0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.4; } 50% { transform: translateX(-50%) scale(1.1); opacity: 0.6; } }
+let contract;
 
-/* Navbar */ .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+connectButton.addEventListener("click", async () => { try { const providerInstance = await web3Modal.connect(); web3 = new Web3(providerInstance); const accounts = await web3.eth.getAccounts(); selectedAccount = accounts[0]; contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
 
-.navbar .logo { font-weight: bold; font-size: 1.5rem; color: #fff; text-shadow: 0 0 5px #ffaaaa88; }
+connectButton.innerText = selectedAccount.slice(0, 6) + "..." + selectedAccount.slice(-4);
 
-.navbar nav a, .navbar nav button { color: #fff; margin-left: 1rem; padding: 0.5rem 1rem; border-radius: 12px; background: #ff3c0030; border: 1px solid #ff5e3a; font-weight: bold; transition: all 0.3s ease; text-decoration: none; }
+  updateBalance();
+} catch (error) {
+  console.error("Connection failed:", error);
+}
 
-.navbar nav a:hover, .navbar nav button:hover { background: #ff5e3a; color: #000; }
+});
 
-/* Hero */ .hero { padding: 18vh 2rem 10vh; text-align: center; }
+async function updateBalance() { if (!contract || !selectedAccount) return; try { const balance = await contract.methods.balanceOf(selectedAccount).call(); const claimable = await contract.methods.claimable(selectedAccount).call(); const supply = await contract.methods.totalSupply().call();
 
-.hero h1 { font-size: 3rem; margin-bottom: 1rem; color: #ffe7e7; text-shadow: 0 0 12px #00000080; }
+const decimals = await contract.methods.decimals().call();
 
-.hero p { font-size: 1.2rem; color: #ffd5d5; margin-bottom: 2rem; }
+  const format = (num) => parseFloat(web3.utils.fromWei(num, "ether")).toLocaleString();
 
-/* CTA Buttons */ .cta button { margin: 0.5rem; padding: 1rem 2rem; font-size: 1rem; border-radius: 40px; background: #fff; color: #ff3c00; font-weight: bold; border: none; box-shadow: 0 0 20px rgba(255, 100, 80, 0.3); transition: all 0.3s ease; cursor: pointer; }
+  userBalanceEl.innerText = format(balance) + " $ORIF";
+  claimableEl.innerText = format(claimable);
+  totalSupplyEl.innerText = format(supply) + " $ORIF";
+} catch (err) {
+  console.warn("Using fallback supply", err);
+  userBalanceEl.innerText = "-- $ORIF";
+  claimableEl.innerText = "--";
+  totalSupplyEl.innerText = "60,000,000 $ORIF";
+}
 
-.cta button:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 100, 80, 0.6); }
+}
 
-/* Sections */ section { padding: 6rem 2rem; text-align: center; }
+generateBtn.addEventListener("click", () => { const addr = referralInput.value.trim(); if (web3.utils.isAddress(addr)) { const url = ${window.location.origin}?ref=${addr}; referralLinkDisplay.value = url; } else { referralLinkDisplay.value = "Invalid address"; } });
 
-/* Buy + Referral Box */ .buy-section, .referral-section { background: rgba(255, 255, 255, 0.05); border-radius: 20px; max-width: 700px; margin: 2rem auto; padding: 2rem; box-shadow: 0 0 20px rgba(0,0,0,0.2); backdrop-filter: blur(10px); }
+copyBtn.addEventListener("click", () => { referralLinkDisplay.select(); document.execCommand("copy"); copyBtn.innerText = "Copied!"; setTimeout(() => copyBtn.innerText = "Copy Referral Link", 2000); });
 
-/* Input Fields */ input[type="number"], input[type="text"] { width: 80%; max-width: 400px; margin-top: 1rem; padding: 0.9rem 1.2rem; font-size: 1rem; border-radius: 12px; border: none; background: #fff; color: #000; outline: none; }
+buyButton.addEventListener("click", async () => { const amountBNB = amountInput.value.trim(); if (!selectedAccount || !amountBNB || isNaN(amountBNB)) return;
 
-/* General Button Style */ button { font-weight: bold; cursor: pointer; padding: 0.7rem 1.5rem; border-radius: 12px; background: #fff; color: #ff3c00; border: none; transition: 0.3s ease; }
+const refAddress = new URLSearchParams(window.location.search).get("ref") || "0x0000000000000000000000000000000000000000";
+const encodedData = web3.eth.abi.encodeParameters(['address'], [refAddress]);
 
-button:hover { background: #ff3c00; color: #fff; }
+try {
+  await web3.eth.sendTransaction({
+    from: selectedAccount,
+    to: CONTRACT_ADDRESS,
+    value: web3.utils.toWei(amountBNB, "ether"),
+    data: encodedData
+  });
+} catch (err) {
+  console.error("Buy failed:", err);
+}
 
-/* Referral */ #referral h2 { font-size: 2rem; margin-bottom: 0.5rem; color: #fff; text-shadow: 0 0 6px #00000050; }
+}); });
 
-#referral p { color: #fff; opacity: 0.85; font-size: 1rem; margin-bottom: 1rem; }
-
-/* Balance Display */ .wallet-display { padding: 1rem; border-radius: 12px; margin-top: 1rem; font-weight: 500; background: rgba(255, 200, 120, 0.07); border: 1px solid #ffaa00; text-align: center; backdrop-filter: blur(8px); color: #fff7cc; max-width: 500px; margin-left: auto; margin-right: auto; }
-
-/* Tilt */ .tilt { will-change: transform; transition: transform 0.2s ease; box-shadow: 0 0 15px #ffaa0088; }
-
-/* Footer */ footer { padding: 2rem; text-align: center; font-size: 0.8rem; color: #ccc; margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); background: transparent; text-shadow: 0 0 2px #00000050; }
-
+                                                                                 
