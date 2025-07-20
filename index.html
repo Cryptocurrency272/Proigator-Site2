@@ -1,90 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oriflame Token</title>
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- AOS Animations -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-  <!-- Ethers.js -->
-  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
-
-  <!-- Vanilla Tilt -->
-  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
-</head>
-<body onload="AOS.init()">
-
-  <!-- Animated Background -->
-  <div class="sunset-bg"></div>
-  <div class="sun-overlay"></div>
-
-  <!-- Navbar -->
-  <header class="navbar">
+  <title>Oriflame Token</title>  <!-- Styles -->  <link rel="stylesheet" href="styles.css" />  <!-- AOS Animations -->  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>  <!-- Ethers.js -->  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>  <!-- Vanilla Tilt -->  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script></head>
+<body onload="AOS.init()">  <!-- Animated Background -->  <div class="sunset-bg"></div>
+  <div class="sun-overlay"></div>  <!-- Navbar -->  <header class="navbar">
     <div class="logo">Oriflame</div>
     <nav>
       <a href="#buy">Buy</a>
       <a href="#referral">Referral</a>
       <button id="connectWallet">Connect Wallet</button>
     </nav>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
+  </header>  <!-- Hero Section -->  <section class="hero">
     <h1>Welcome to Oriflame Token</h1>
     <p>The sunset-inspired token experience</p>
     <div class="cta">
       <button onclick="scrollToSection('buy')">Buy Now</button>
       <button onclick="scrollToSection('referral')">Get Cashback</button>
     </div>
-  </section>
-
-  <!-- Wallet Info Display -->
-  <div id="walletInfo" class="wallet-display" style="display: none;" data-aos="fade-in">
+  </section>  <!-- Wallet Info Display -->  <div id="walletInfo" class="wallet-display" style="display: none;" data-aos="fade-in">
     Wallet: <span id="userWallet"></span><br>
     Balance: <span id="userBalance">0</span> $ORIF
-  </div>
-
-  <!-- Buy Section -->
-  <section id="buy" class="buy-section">
+  </div>  <!-- Buy Section -->  <section id="buy" class="buy-section">
     <h2>Buy Oriflame Tokens</h2>
     <p>Enter BNB amount and buy directly</p>
     <input type="number" id="bnbAmount" placeholder="Amount in BNB" />
     <button onclick="buyTokens()">Buy Now</button>
     <div id="buyStatus"></div>
-  </section>
-
-  <!-- Wallet Balance + Vesting -->
-  <section id="wallet-balance">
+  </section>  <!-- Wallet Balance + Vesting -->  <section id="wallet-balance">
     <h2>Your Oriflame Balance</h2>
     <p id="walletAddress" style="font-size: 0.9rem; color: #ddd;"></p>
     <p><strong id="tokenBalance">--</strong> $ORIF</p>
     <p id="vestingStatus" style="font-size: 0.85rem; color: #ffa;">Claimable tokens: <strong id="claimableAmount">--</strong></p>
-  </section>
-
-  <!-- Referral Section -->
-  <section id="referral" class="referral-section">
+  </section>  <!-- Referral Section -->  <section id="referral" class="referral-section">
     <h2>Earn Referral Cashback</h2>
     <p>Share your link and earn when others buy Oriflame Token.</p>
     <input type="text" id="referralLink" readonly />
     <button onclick="copyReferral()">Copy Your Referral Link</button>
-  </section>
-
-  <!-- Scripts -->
-  <script>
+  </section>  <!-- Footer -->  <footer class="site-footer">
+    <small>OriflameTokenLabs &mdash; secure protection</small>
+  </footer>  <!-- Scripts -->  <script>
     VanillaTilt.init(document.querySelectorAll(".tilt"), {
       max: 10,
       speed: 400,
       glare: true,
       "max-glare": 0.4
     });
-  </script>
-  <script src="script.js"></script>
-  <script src="wallet.js"></script>
-</body>
+  </script>  <script src="script.js"></script>  <script src="wallet.js"></script></body>
 </html>
