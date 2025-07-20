@@ -1,5 +1,3 @@
-// script.js
-
 // Referral from URL
 function detectReferral() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -10,12 +8,10 @@ function detectReferral() {
 }
 detectReferral();
 
-// Scroll to section utility
+// Scroll to section
 function scrollToSection(id) {
   const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' });
-  }
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
 // Copy referral link
@@ -32,26 +28,22 @@ function generateReferralLink(address) {
   return `${base}?ref=${address}`;
 }
 
-// Contract setup
-const CONTRACT_ADDRESS = "0xYourContractAddress"; // 🔁 Replace with your deployed contract address
-const ABI = [ /* Your ABI goes here */ ];
+// ✅ YOUR CONTRACT INFO (replace if updated)
+const CONTRACT_ADDRESS = "0xF4c4fA2E899B98489f399Cb521B28220076E1F88";
+const ABI = [/* trimmed here for brevity, you can paste full ABI if needed */];
 
-let provider;
-let signer;
-let contract;
+// WalletConnect support
+let provider, signer, contract;
 
-// WalletConnect support via Web3Modal
 async function connectWallet() {
   const providerOptions = {
     walletconnect: {
       package: window.WalletConnectProvider.default,
       options: {
-        rpc: {
-          56: "https://bsc-dataseed.binance.org/"
-        },
-        chainId: 56
-      }
-    }
+        rpc: { 56: "https://bsc-dataseed.binance.org/" },
+        chainId: 56,
+      },
+    },
   };
 
   const web3Modal = new window.Web3Modal.default({
@@ -90,10 +82,10 @@ async function buyTokens() {
     }
 
     const valueInWei = ethers.utils.parseEther(bnb);
-    let ref = localStorage.getItem("oriflame_ref") || ethers.constants.AddressZero;
+    const ref = localStorage.getItem("oriflame_ref") || ethers.constants.AddressZero;
 
     const tx = await contract.buyTokens(ref, { value: valueInWei });
-    document.getElementById("buyStatus").innerText = "Transaction sent. Waiting for confirmation...";
+    document.getElementById("buyStatus").innerText = "Transaction sent...";
     await tx.wait();
     document.getElementById("buyStatus").innerText = "Success! Tokens purchased.";
     updateWalletDisplay();
@@ -103,7 +95,7 @@ async function buyTokens() {
   }
 }
 
-// Wallet balance & vesting
+// Wallet balance + vesting
 async function updateWalletDisplay() {
   if (!signer || !contract) return;
 
@@ -121,6 +113,6 @@ async function updateWalletDisplay() {
       document.getElementById("vestingStatus").style.display = "none";
     }
   } catch (e) {
-    console.error("Balance/Vesting error", e);
+    console.error("Error fetching balance/vesting:", e);
   }
 }
