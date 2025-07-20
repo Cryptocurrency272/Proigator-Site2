@@ -33,7 +33,9 @@
     <h2>Buy Oriflame Tokens</h2>
     <p>Enter BNB amount to buy</p>
     <input type="number" id="bnbAmount" placeholder="Amount in BNB" />
-    <button onclick="buyTokens()">Buy Now</button>
+    <button id="buyButton">Buy Now</button>
+    <p id="buyStatus" class="status"></p>
+    <p class="price-info">Current Price: <span id="tokenPrice">0.0001 BNB</span> · Presale Stage: <span id="presaleStage">1</span></p>
   </section>
 
   <section id="wallet" class="wallet-display tilt">
@@ -47,10 +49,10 @@
   <section id="referral" class="referral-section tilt">
     <h2>Earn Referral Cashback</h2>
     <p>Type your wallet to get your personal link</p>
-    <input type="text" id="refInput" placeholder="Your Wallet Address" />
-    <button onclick="generateReferral()">Generate Link</button>
-    <input type="text" id="referralLink" readonly />
-    <button onclick="copyReferral()">Copy Referral Link</button>
+    <input type="text" id="referralInput" placeholder="Your Wallet Address" />
+    <button id="generateRef">Generate Link</button>
+    <input type="text" id="referralOutput" readonly />
+    <button id="copyRef">Copy Referral Link</button>
   </section>
 
   <footer>
@@ -66,5 +68,14 @@
   <script src="contract-config.js"></script>
   <script src="wallet.js"></script>
   <script src="script.js"></script>
+
+  <script>
+    function scrollToBuy() {
+      document.getElementById("buy").scrollIntoView({ behavior: "smooth" });
+    }
+    function scrollToReferral() {
+      document.getElementById("referral").scrollIntoView({ behavior: "smooth" });
+    }
+  </script>
 </body>
 </html>
