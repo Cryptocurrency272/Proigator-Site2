@@ -1,30 +1,16 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Referral Stats · Oriflame Token</title>
   <link rel="stylesheet" href="styles.css" />
-  <style>
-    body, h1, h2, p, input, button, span {
-      color: #0a0a0a;
-      font-size: 1.1rem;
-    }
-    h1, h2 {
-      font-size: 2rem;
-      text-shadow: 0 0 3px rgba(0,0,0,0.4);
-    }
-    .wallet-display {
-      background: rgba(255, 255, 255, 0.08);
-      color: #0a0a0a;
-    }
-    input, button {
-      font-size: 1rem;
-    }
-  </style>
 </head>
 <body>
   <div class="sunset-bg"></div>
-  <div class="sun-overlay"></div>  <header class="navbar">
+  <div class="sun-overlay"></div>
+
+  <header class="navbar">
     <div class="logo">Oriflame</div>
     <nav>
       <a href="index.html#buy">Buy</a>
@@ -32,20 +18,30 @@
       <a href="stats.html" class="active">Stats</a>
       <button id="connectWallet">Connect Wallet</button>
     </nav>
-  </header>  <section class="hero">
+  </header>
+
+  <section class="hero">
     <h1>Referral Stats</h1>
-    <p>Paste your wallet address to view referral performance.</p>
+    <p>Paste your wallet address to view your referral performance.</p>
     <input type="text" id="refStatsInput" placeholder="Enter your wallet address" />
     <button onclick="loadReferralStats()">Check Stats</button>
-  </section>  <section class="wallet-display tilt" id="refStatsResult" style="display:none;">
+  </section>
+
+  <section class="wallet-display tilt" id="refStatsResult" style="display:none;">
     <h2>Referral Summary</h2>
     <p>Total BNB from Referrals: <span id="bnbReferred">--</span></p>
     <p>Cashback Earned: <span id="cashbackEarned">--</span></p>
     <p>Total Referrals: <span id="referralCount">--</span></p>
-    <p>Current Token Price: <strong style="color:#222">0.0001 BNB</strong></p>
-  </section>  <footer>
+  </section>
+
+  <footer>
     OriflameTokenLabs · verified and protected
-  </footer>  <!-- Scripts -->  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>  <script src="contract-config.js"></script>  <script>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+  <script src="contract-config.js"></script>
+  <script>
     async function loadReferralStats() {
       const input = document.getElementById("refStatsInput").value.trim();
       if (!ethers.utils.isAddress(input)) {
@@ -61,15 +57,16 @@
         const cashback = await contract.totalCashbackEarned(input);
         const refCount = await contract.totalReferrals(input);
 
-        document.getElementById("bnbReferred").innerText = ethers.utils.formatEther(bnbReferred) + " BNB";
-        document.getElementById("cashbackEarned").innerText = ethers.utils.formatEther(cashback) + " BNB";
+        document.getElementById("bnbReferred").innerText = ethers.utils.formatEther(bnbReferred);
+        document.getElementById("cashbackEarned").innerText = ethers.utils.formatEther(cashback);
         document.getElementById("referralCount").innerText = refCount.toString();
 
         document.getElementById("refStatsResult").style.display = "block";
       } catch (err) {
         console.error("Referral stats error", err);
-        alert("Unable to fetch referral stats. Make sure the address is correct.");
+        alert("Unable to fetch referral stats.");
       }
     }
-  </script></body>
+  </script>
+</body>
 </html>
