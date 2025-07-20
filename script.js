@@ -1,77 +1,105 @@
-import { connectWallet, generateReferralLink, detectReferral, getStoredReferral } from "./wallet.js";
+import {
+  connectWallet,
+  generateReferralLink,
+  detectReferral,
+  getStoredReferral
+} from "./wallet.js";
 
-// Run on page load
+// Run on load
 window.addEventListener("DOMContentLoaded", () => {
   detectReferral();
   setupListeners();
 });
 
-// Setup button and input events
+// Add listeners to buttons
 function setupListeners() {
   document.getElementById("connectWallet").addEventListener("click", connectAndDisplay);
-  document.getElementById("buyButton").addEventListener("click", buyTokens);
-  document.getElementById("generateRef").addEventListener("click", handleReferral);
-  document.getElementById("copyRef").addEventListener("click", copyReferral);
+  document.querySelector("#buy button").addEventListener("click", buyTokens);
+  document.querySelector("#referral button:nth-of-type(1)").addEventListener("click", handleReferral);
+  document.querySelector("#referral button:nth-of-type(2)").addEventListener("click", copyReferral);
+  document.querySelector("#wallet button").addEventListener("click", claimTokens);
 }
 
-// Connect wallet & show user info
+// Connect wallet and load data
 async function connectAndDisplay() {
-  const { address, contract } = await connectWallet();
+  try {
+    const { address, contract } = await connectWallet();
 
-  document.getElementById("walletAddress").textContent = `Connected: ${address}`;
-  document.getElementById("walletInfo").style.display = "block";
+    // Show user wallet
+    const walletDisplay = document.getElementById("tokenBalance");
+    const claimDisplay = document.getElementById("claimable");
+    const supplyDisplay = document.getElementById("totalSupply");
 
-  const balance = await contract.balanceOf(address);
-  document.getElementById("tokenBalance").textContent = ethers.utils.formatUnits(balance, 18);
-
-  if (contract.claimable) {
+    const balance = await contract.balanceOf(address);
     const claimable = await contract.claimable(address);
-    document.getElementById("claimableAmount").textContent = ethers.utils.formatUnits(claimable, 18);
-  }
+    const supply = await contract.totalSupply();
 
-  const referralInput = document.getElementById("referralOutput");
-  if (referralInput) referralInput.value = generateReferralLink(address);
+    walletDisplay.textContent = `${ethers.utils.formatUnits(balance, 18)} $ORIF`;
+    claimDisplay.textContent = `${ethers.utils.formatUnits(claimable, 18)} $ORIF`;
+    supplyDisplay.textContent = `${ethers.utils.formatUnits(supply, 18)} $ORIF`;
+
+    // Referral link
+    const linkInput = document.getElementById("referralLink");
+    linkInput.value = generateReferralLink(address);
+  } catch (err) {
+    console.error("Connection failed:", err);
+  }
 }
 
-// Buy ORIF tokens with BNB
+// Buy tokens
 async function buyTokens() {
   try {
-    const bnbAmount = document.getElementById("bnbInput").value;
-    if (!bnbAmount || isNaN(bnbAmount)) {
-      alert("Please enter a valid BNB amount");
+    const amount = document.getElementById("bnbAmount").value;
+    const status = document.getElementById("buyStatus");
+
+    if (!amount || isNaN(amount)) {
+      alert("Enter a valid BNB amount");
       return;
     }
 
-    const { contract, signer } = await connectWallet();
-    const value = ethers.utils.parseEther(bnbAmount);
+    const { contract } = await connectWallet();
+    const value = ethers.utils.parseEther(amount);
     const ref = getStoredReferral();
 
     const tx = await contract.buyTokens(ref, { value });
-    document.getElementById("buyStatus").textContent = "Transaction sent. Waiting for confirmation...";
+    status.textContent = "Transaction sent... waiting confirmation";
     await tx.wait();
-    document.getElementById("buyStatus").textContent = "Success! Tokens purchased.";
+    status.textContent = "✅ Purchase successful!";
   } catch (err) {
     console.error(err);
-    document.getElementById("buyStatus").textContent = "Error: " + err.message;
+    document.getElementById("buyStatus").textContent = "❌ Error: " + err.message;
   }
 }
 
-// Generate referral link
+// Claim vested tokens
+async function claimTokens() {
+  try {
+    const { contract } = await connectWallet();
+    const tx = await contract.claim();
+    await tx.wait();
+    alert("✅ Claimed successfully!");
+  } catch (err) {
+    console.error(err);
+    alert("❌ Claim failed: " + err.message);
+  }
+}
+
+// Generate referral from input
 function handleReferral() {
-  const input = document.getElementById("referralInput").value.trim();
+  const input = document.getElementById("refInput").value.trim();
   if (!ethers.utils.isAddress(input)) {
-    alert("Enter a valid wallet address");
+    alert("❌ Invalid wallet address");
     return;
   }
 
   const link = generateReferralLink(input);
-  document.getElementById("referralOutput").value = link;
+  document.getElementById("referralLink").value = link;
 }
 
-// Copy referral link
+// Copy referral
 function copyReferral() {
-  const input = document.getElementById("referralOutput");
+  const input = document.getElementById("referralLink");
   input.select();
   document.execCommand("copy");
-  alert("Referral link copied!");
+  alert("✅ Referral link copied!");
 }
