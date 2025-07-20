@@ -1,59 +1,77 @@
-// script.js
+import { connectWallet, generateReferralLink, detectReferral, getStoredReferral } from "./wallet.js";
 
-// Detect referral from URL and store function detectReferral() { const urlParams = new URLSearchParams(window.location.search); const ref = urlParams.get("ref"); if (ref) { localStorage.setItem("oriflame_ref", ref); } } detectReferral();
+// Run on page load
+window.addEventListener("DOMContentLoaded", () => {
+  detectReferral();
+  setupListeners();
+});
 
-// Smooth scroll to section function scrollToSection(id) { const el = document.getElementById(id); if (el) { el.scrollIntoView({ behavior: 'smooth' }); } }
-
-// Generate referral link function generateReferralLink(address) { const base = window.location.origin + window.location.pathname; return ${base}?ref=${address}; }
-
-// Copy logic function copyReferral() { const input = document.getElementById("referralLink"); input.select(); navigator.clipboard.writeText(input.value).then(() => { const alertBox = document.getElementById("copyAlert"); alertBox.style.opacity = 1; setTimeout(() => (alertBox.style.opacity = 0), 2000); }); }
-
-// Contract setup const CONTRACT_ADDRESS = "0xF4c4fA2E899B98489f399Cb521B28220076E1F88"; const ABI = [ "function buyTokens(address ref) payable", "function balanceOf(address) view returns (uint256)", "function claimable(address) view returns (uint256)", "function totalSupply() view returns (uint256)" ];
-
-let provider, signer, contract;
-
-// Wallet connect setup async function connectWallet() { const providerOptions = { walletconnect: { package: window.WalletConnectProvider.default, options: { rpc: { 56: "https://bsc-dataseed.binance.org/" }, chainId: 56, }, }, };
-
-const web3Modal = new window.Web3Modal.default({ cacheProvider: false, providerOptions, });
-
-const instance = await web3Modal.connect(); provider = new ethers.providers.Web3Provider(instance); signer = provider.getSigner(); contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-
-const address = await signer.getAddress(); document.getElementById("userWallet").textContent = address; document.getElementById("walletInfo").style.display = "block";
-
-const input = document.getElementById("referralLink"); input.value = generateReferralLink(address); updateWalletDisplay(); }
-
-document.getElementById("connectWallet").addEventListener("click", connectWallet);
-
-// Buy tokens async function buyTokens() { try { if (!signer) await connectWallet();
-
-const bnb = document.getElementById("bnbAmount").value;
-if (!bnb || isNaN(bnb)) {
-  alert("Enter valid BNB amount.");
-  return;
+// Setup button and input events
+function setupListeners() {
+  document.getElementById("connectWallet").addEventListener("click", connectAndDisplay);
+  document.getElementById("buyButton").addEventListener("click", buyTokens);
+  document.getElementById("generateRef").addEventListener("click", handleReferral);
+  document.getElementById("copyRef").addEventListener("click", copyReferral);
 }
 
-const value = ethers.utils.parseEther(bnb);
-const ref = localStorage.getItem("oriflame_ref") || ethers.constants.AddressZero;
+// Connect wallet & show user info
+async function connectAndDisplay() {
+  const { address, contract } = await connectWallet();
 
-const tx = await contract.buyTokens(ref, { value });
-document.getElementById("buyStatus").innerText = "Transaction sent...";
-await tx.wait();
-document.getElementById("buyStatus").innerText = "Success! Tokens bought.";
-updateWalletDisplay();
+  document.getElementById("walletAddress").textContent = `Connected: ${address}`;
+  document.getElementById("walletInfo").style.display = "block";
 
-} catch (e) { document.getElementById("buyStatus").innerText = "Error: " + e.message; console.error(e); } }
+  const balance = await contract.balanceOf(address);
+  document.getElementById("tokenBalance").textContent = ethers.utils.formatUnits(balance, 18);
 
-// Update wallet info async function updateWalletDisplay() { if (!signer || !contract) return; const address = await signer.getAddress(); document.getElementById("walletAddress").innerText = Connected: ${address};
+  if (contract.claimable) {
+    const claimable = await contract.claimable(address);
+    document.getElementById("claimableAmount").textContent = ethers.utils.formatUnits(claimable, 18);
+  }
 
-try { const bal = await contract.balanceOf(address); document.getElementById("tokenBalance").innerText = ethers.utils.formatUnits(bal, 18);
+  const referralInput = document.getElementById("referralOutput");
+  if (referralInput) referralInput.value = generateReferralLink(address);
+}
 
-const claimable = await contract.claimable(address);
-document.getElementById("claimableAmount").innerText = ethers.utils.formatUnits(claimable, 18);
+// Buy ORIF tokens with BNB
+async function buyTokens() {
+  try {
+    const bnbAmount = document.getElementById("bnbInput").value;
+    if (!bnbAmount || isNaN(bnbAmount)) {
+      alert("Please enter a valid BNB amount");
+      return;
+    }
 
-const supply = await contract.totalSupply();
-document.getElementById("tokenSupply").innerText = ethers.utils.formatUnits(supply, 18) + " $ORIF";
+    const { contract, signer } = await connectWallet();
+    const value = ethers.utils.parseEther(bnbAmount);
+    const ref = getStoredReferral();
 
-} catch (err) { console.error("Balance or supply error", err); } }
+    const tx = await contract.buyTokens(ref, { value });
+    document.getElementById("buyStatus").textContent = "Transaction sent. Waiting for confirmation...";
+    await tx.wait();
+    document.getElementById("buyStatus").textContent = "Success! Tokens purchased.";
+  } catch (err) {
+    console.error(err);
+    document.getElementById("buyStatus").textContent = "Error: " + err.message;
+  }
+}
 
-// Manual referral link from user input function generateCustomReferral() { const custom = document.getElementById("manualRefInput").value.trim(); if (!ethers.utils.isAddress(custom)) { alert("Invalid wallet address."); return; } document.getElementById("referralLink").value = generateReferralLink(custom); }
+// Generate referral link
+function handleReferral() {
+  const input = document.getElementById("referralInput").value.trim();
+  if (!ethers.utils.isAddress(input)) {
+    alert("Enter a valid wallet address");
+    return;
+  }
 
+  const link = generateReferralLink(input);
+  document.getElementById("referralOutput").value = link;
+}
+
+// Copy referral link
+function copyReferral() {
+  const input = document.getElementById("referralOutput");
+  input.select();
+  document.execCommand("copy");
+  alert("Referral link copied!");
+}
