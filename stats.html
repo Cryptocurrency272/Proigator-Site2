@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Referral Stats · Oriflame Token</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="sunset-bg"></div>
+  <div class="sun-overlay"></div>
+
+  <header class="navbar">
+    <div class="logo">Oriflame</div>
+    <nav>
+      <a href="index.html#buy">Buy</a>
+      <a href="index.html#referral">Referral</a>
+      <a href="stats.html" class="active">Stats</a>
+      <button id="connectWallet">Connect Wallet</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Referral Stats</h1>
+    <p>Paste your wallet address to view referral performance.</p>
+    <input type="text" id="refStatsInput" placeholder="Enter your wallet address" />
+    <button onclick="loadReferralStats()">Check Stats</button>
+  </section>
+
+  <section class="wallet-display tilt" id="refStatsResult" style="display:none;">
+    <h2>Referral Summary</h2>
+    <p>Total BNB from Referrals: <span id="bnbReferred">--</span></p>
+    <p>Cashback Earned: <span id="cashbackEarned">--</span></p>
+    <p>Total Referrals: <span id="referralCount">--</span></p>
+  </section>
+
+  <footer>
+    OriflameTokenLabs · verified and protected
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+  <script src="contract-config.js"></script>
+
+  <script>
+    async function loadReferralStats() {
+      const input = document.getElementById("refStatsInput").value.trim();
+      if (!ethers.utils.isAddress(input)) {
+        alert("Please enter a valid wallet address.");
+        return;
+      }
+
+      const provider = new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org/");
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
+
+      try {
+        const bnbReferred = await contract.totalReferredBNB?.(input) || 0;
+        const cashback = await contract.totalCashbackEarned?.(input) || 0;
+        const refCount = await contract.totalReferrals?.(input) || 0;
+
+        document.getElementById("bnbReferred").innerText = ethers.utils.formatEther(bnbReferred);
+        document.getElementById("cashbackEarned").innerText = ethers.utils.formatEther(cashback);
+        document.getElementById("referralCount").innerText = refCount.toString();
+
+        document.getElementById("refStatsResult").style.display = "block";
+      } catch (err) {
+        console.error("Referral stats error", err);
+        alert("Unable to fetch referral stats.");
+      }
+    }
+  </script>
+</body>
+</html>
