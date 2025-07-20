@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,9 +7,7 @@
 </head>
 <body>
   <div class="sunset-bg"></div>
-  <div class="sun-overlay"></div>
-
-  <header class="navbar">
+  <div class="sun-overlay"></div>  <header class="navbar">
     <div class="logo">Oriflame</div>
     <nav>
       <a href="#buy">Buy</a>
@@ -18,64 +15,44 @@
       <a href="stats.html">Stats</a>
       <button id="connectWallet">Connect Wallet</button>
     </nav>
-  </header>
-
-  <section class="hero">
+  </header>  <section class="hero">
     <h1>Welcome to Oriflame Token</h1>
     <p>Sunset-powered. Referral-driven. Ultra Secure.</p>
     <div class="cta">
       <button onclick="scrollToBuy()">Buy Now</button>
       <button onclick="scrollToReferral()">Get Cashback</button>
     </div>
-  </section>
-
-  <section id="buy" class="buy-section tilt">
+  </section>  <section id="buy" class="buy-section tilt">
     <h2>Buy Oriflame Tokens</h2>
     <p>Enter BNB amount to buy</p>
     <input type="number" id="bnbAmount" placeholder="Amount in BNB" />
     <button id="buyButton">Buy Now</button>
     <p id="buyStatus" class="status"></p>
-    <p class="price-info">Current Price: <span id="tokenPrice">0.0001 BNB</span> · Presale Stage: <span id="presaleStage">1</span></p>
-  </section>
-
-  <section id="wallet" class="wallet-display tilt">
+    <p class="price-info">
+      Current Price: <span id="tokenPrice">Loading...</span> ·
+      Presale Stage: <span id="presaleStage">--</span>
+    </p>
+  </section>  <section id="wallet" class="wallet-display tilt">
     <h2>Your Oriflame Balance</h2>
     <p id="tokenBalance">-- $ORIF</p>
     <p>Claimable tokens: <span id="claimable">--</span></p>
     <p>Total Supply: <span id="totalSupply">-- $ORIF</span></p>
     <button onclick="claimTokens()">Claim</button>
-  </section>
-
-  <section id="referral" class="referral-section tilt">
+  </section>  <section id="referral" class="referral-section tilt">
     <h2>Earn Referral Cashback</h2>
     <p>Type your wallet to get your personal link</p>
     <input type="text" id="referralInput" placeholder="Your Wallet Address" />
     <button id="generateRef">Generate Link</button>
     <input type="text" id="referralOutput" readonly />
     <button id="copyRef">Copy Referral Link</button>
-  </section>
-
-  <footer>
+  </section>  <footer>
     OriflameTokenLabs · verified and protected
-  </footer>
-
-  <!-- Scripts -->
-  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
-  <script src="https://unpkg.com/web3modal@1.9.5/dist/index.js"></script>
-  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
-
-  <script src="contract-config.js"></script>
-  <script src="wallet.js"></script>
-  <script src="script.js"></script>
-
-  <script>
+  </footer>  <!-- Scripts -->  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>  <script src="https://unpkg.com/web3modal@1.9.5/dist/index.js"></script>  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>  <script src="contract-config.js"></script>  <script src="wallet.js"></script>  <script src="script.js"></script>  <script>
     function scrollToBuy() {
       document.getElementById("buy").scrollIntoView({ behavior: "smooth" });
     }
     function scrollToReferral() {
       document.getElementById("referral").scrollIntoView({ behavior: "smooth" });
     }
-  </script>
-</body>
+  </script></body>
 </html>
