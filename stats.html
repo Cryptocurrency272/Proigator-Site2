@@ -1,128 +1,73 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Referral Stats · Oriflame Token</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="sunset-bg"></div>
+  <div class="sun-overlay"></div>
 
-contract OriflameToken {
-    string public name = "Oriflame";
-    string public symbol = "orif$";
-    uint8 public decimals = 18;
-    uint256 public totalSupply = 30_000_000 * 10 ** 18;
-    address public owner;
+  <header class="navbar">
+    <div class="logo">Oriflame</div>
+    <nav>
+      <a href="index.html#buy">Buy</a>
+      <a href="index.html#referral">Referral</a>
+      <a href="stats.html" class="active">Stats</a>
+      <button id="connectWallet">Connect Wallet</button>
+    </nav>
+  </header>
 
-    mapping(address => uint256) public balanceOf;
-    mapping(address => uint256) public claimable;
-    mapping(address => mapping(address => uint256)) public allowance;
+  <section class="hero">
+    <h1>Referral Stats</h1>
+    <p>Paste your wallet address to view referral performance.</p>
+    <input type="text" id="refStatsInput" placeholder="Enter your wallet address" />
+    <button onclick="loadReferralStats()">Check Stats</button>
+  </section>
 
-    // Referral tracking
-    mapping(address => uint256) public totalReferredBNB;
-    mapping(address => uint256) public totalCashbackEarned;
-    mapping(address => uint256) public totalReferrals;
-    mapping(address => address) public referrer;
+  <section class="wallet-display tilt" id="refStatsResult" style="display:none;">
+    <h2>Referral Summary</h2>
+    <p>Total BNB from Referrals: <span id="bnbReferred">--</span></p>
+    <p>Cashback Earned: <span id="cashbackEarned">--</span></p>
+    <p>Total Referrals: <span id="referralCount">--</span></p>
+  </section>
 
-    event Transfer(address indexed from, address indexed to, uint256 value);
-    event Referral(address indexed from, address indexed ref, uint256 value);
+  <footer>
+    OriflameTokenLabs · verified and protected
+  </footer>
 
-    constructor() {
-        owner = msg.sender;
-        balanceOf[address(this)] = totalSupply;
-        emit Transfer(address(0), address(this), totalSupply);
+  <!-- Scripts -->
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+  <script src="contract-config.js"></script>
+
+  <script>
+    async function loadReferralStats() {
+      const input = document.getElementById("refStatsInput").value.trim();
+      if (!ethers.utils.isAddress(input)) {
+        alert("Please enter a valid wallet address.");
+        return;
+      }
+
+      const provider = new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org/");
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
+
+      try {
+        const bnbReferred = await contract.totalReferredBNB(input);
+        const cashback = await contract.totalCashbackEarned(input);
+        const refCount = await contract.totalReferrals(input);
+
+        document.getElementById("bnbReferred").innerText = ethers.utils.formatEther(bnbReferred) + " BNB";
+        document.getElementById("cashbackEarned").innerText = ethers.utils.formatEther(cashback) + " BNB";
+        document.getElementById("referralCount").innerText = refCount.toString();
+
+        document.getElementById("refStatsResult").style.display = "block";
+      } catch (err) {
+        console.error("Referral stats error", err);
+        alert("Unable to fetch referral stats. Make sure the address is correct.");
+      }
     }
-
-    receive() external payable {
-        buyTokens(address(0));
-    }
-
-    function approve(address spender, uint256 amount) external returns (bool) {
-        allowance[msg.sender][spender] = amount;
-        return true;
-    }
-
-    function transfer(address to, uint256 amount) external returns (bool) {
-        _transfer(msg.sender, to, amount);
-        return true;
-    }
-
-    function transferFrom(address from, address to, uint256 amount) external returns (bool) {
-        uint256 allowed = allowance[from][msg.sender];
-        require(allowed >= amount, "Allowance too low");
-        allowance[from][msg.sender] = allowed - amount;
-        _transfer(from, to, amount);
-        return true;
-    }
-
-    function _transfer(address from, address to, uint256 amount) internal {
-        require(balanceOf[from] >= amount, "Insufficient balance");
-        balanceOf[from] -= amount;
-        balanceOf[to] += amount;
-        emit Transfer(from, to, amount);
-    }
-
-    function buyTokens(address _ref) public payable {
-        require(msg.value > 0, "Send BNB to buy tokens");
-
-        uint256 price = getCurrentPrice();
-        uint256 tokens = (msg.value * 10 ** decimals) / price;
-
-        require(balanceOf[address(this)] >= tokens, "Not enough tokens left");
-        claimable[msg.sender] += tokens;
-        balanceOf[address(this)] -= tokens;
-
-        emit Transfer(address(this), msg.sender, tokens);
-
-        // Referral logic
-        if (_ref != address(0) && _ref != msg.sender && referrer[msg.sender] == address(0)) {
-            referrer[msg.sender] = _ref;
-            totalReferrals[_ref]++;
-        }
-
-        address direct = referrer[msg.sender];
-        address indirect = referrer[direct];
-
-        uint256 directBonus = (msg.value * 20) / 100;
-        uint256 indirectBonus = (msg.value * 10) / 100;
-
-        if (direct != address(0)) {
-            totalReferredBNB[direct] += msg.value;
-            totalCashbackEarned[direct] += directBonus;
-            payable(direct).transfer(directBonus);
-            emit Referral(msg.sender, direct, directBonus);
-        }
-
-        if (indirect != address(0)) {
-            totalReferredBNB[indirect] += msg.value;
-            totalCashbackEarned[indirect] += indirectBonus;
-            payable(indirect).transfer(indirectBonus);
-            emit Referral(msg.sender, indirect, indirectBonus);
-        }
-    }
-
-    function claim() external {
-        uint256 amount = claimable[msg.sender];
-        require(amount > 0, "Nothing to claim");
-        claimable[msg.sender] = 0;
-        balanceOf[msg.sender] += amount;
-        emit Transfer(address(this), msg.sender, amount);
-    }
-
-    function getCurrentPrice() public view returns (uint256) {
-        uint256 sold = totalSupply - balanceOf[address(this)];
-        if (sold < 3_000_000 * 10 ** 18) return 0.0001 ether; // Stage 1
-        if (sold < 9_000_000 * 10 ** 18) return 0.0005 ether; // Stage 2
-        if (sold < 15_000_000 * 10 ** 18) return 0.001 ether; // Stage 3
-        if (sold < 21_000_000 * 10 ** 18) return 0.005 ether; // Stage 4
-        if (sold < 27_000_000 * 10 ** 18) return 0.009 ether; // Stage 5
-        return 0.02 ether; // Listing (Stage 6)
-    }
-
-    // Referral stats view functions
-    function totalReferredBNBOf(address user) external view returns (uint256) {
-        return totalReferredBNB[user];
-    }
-
-    function totalCashbackEarnedOf(address user) external view returns (uint256) {
-        return totalCashbackEarned[user];
-    }
-
-    function totalReferralsOf(address user) external view returns (uint256) {
-        return totalReferrals[user];
-    }
-}
+  </script>
+</body>
+</html>
