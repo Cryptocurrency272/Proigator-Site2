@@ -9,15 +9,16 @@ html, body {
   height: 100%;
   font-family: 'Segoe UI', sans-serif;
   background: transparent;
-  color: #000;
+  color: #111;
   overflow-x: hidden;
   position: relative;
 }
 
-/* Animated Background */
+/* Animated Sunset Background */
 .sunset-bg {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fbc2eb);
@@ -66,35 +67,30 @@ html, body {
   align-items: center;
 }
 
-.navbar .logo {
+.logo {
   font-weight: bold;
-  font-size: 1.7rem;
-  color: #000;
-  text-shadow: 0 0 5px #ff7777;
+  font-size: 2rem;
+  color: #111;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
 }
 
-.navbar nav a,
-.navbar nav button {
+.navbar nav a, .navbar nav button {
+  color: #111;
   font-size: 1rem;
-  color: #000;
   margin-left: 1rem;
   padding: 0.6rem 1.4rem;
-  border-radius: 30px;
-  border: 2px solid #ff4d00;
-  background: #fff0e6;
+  border-radius: 15px;
+  border: 2px solid #111;
+  background: #fff3;
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 5px 0 #e03c00;
 }
 
-.navbar nav a:hover,
-.navbar nav button:hover {
-  background: #ff4d00;
+.navbar nav a:hover, .navbar nav button:hover {
+  background: #111;
   color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 7px 15px rgba(255, 77, 0, 0.5);
 }
 
 /* Hero */
@@ -104,38 +100,37 @@ html, body {
 }
 
 .hero h1 {
-  font-size: 3.5rem;
+  font-size: 3.2rem;
   margin-bottom: 1rem;
-  color: #000;
-  text-shadow: 0 0 8px #fcd2b2;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .hero p {
   font-size: 1.5rem;
+  color: #222;
   opacity: 0.9;
-  color: #111;
+  margin-bottom: 2rem;
 }
 
-/* CTA Buttons - Looney Tunes style */
+/* CTA Buttons */
 .cta button {
   margin: 0.5rem;
-  padding: 1rem 2.5rem;
+  padding: 1rem 2.2rem;
   font-size: 1.2rem;
-  border-radius: 50px;
-  background: #fff;
-  color: #ff3c00;
+  border-radius: 40px;
+  border: 3px solid #111;
+  background: #ffe;
   font-weight: bold;
-  border: 2px solid #ff3c00;
-  box-shadow: 0 5px 0 #cc2e00;
-  transition: 0.3s ease;
-  cursor: pointer;
+  color: #111;
+  text-shadow: 0 1px 0 #fff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
 }
 
 .cta button:hover {
-  transform: translateY(-3px);
-  background: #ff3c00;
+  transform: scale(1.05);
+  background: #111;
   color: #fff;
-  box-shadow: 0 8px 15px rgba(255, 60, 0, 0.5);
 }
 
 /* Sections */
@@ -145,81 +140,76 @@ section {
 }
 
 /* Cards */
-.buy-section,
-.wallet-display,
-.referral-section {
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 20px;
+.buy-section, .wallet-display, .referral-section {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 25px;
   padding: 2rem;
   max-width: 750px;
-  margin: 2rem auto;
-  box-shadow: 0 0 25px rgba(0,0,0,0.15);
+  margin: 3rem auto;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
   backdrop-filter: blur(10px);
-  color: #000;
 }
 
 /* Inputs */
-input[type="number"],
-input[type="text"] {
+input[type="number"], input[type="text"] {
   width: 80%;
-  max-width: 450px;
+  max-width: 420px;
   margin-top: 1rem;
   padding: 1rem 1.4rem;
   font-size: 1.1rem;
-  border-radius: 12px;
-  border: none;
+  border-radius: 10px;
+  border: 1px solid #111;
   background: #fff;
   color: #000;
   outline: none;
-  box-shadow: 0 0 5px #ffaaa0;
 }
 
-/* Buttons General */
+/* General Buttons */
 button {
   font-weight: bold;
   cursor: pointer;
-  padding: 0.8rem 1.8rem;
-  border-radius: 30px;
+  padding: 0.9rem 1.8rem;
   font-size: 1.1rem;
+  border-radius: 15px;
   background: #fff;
-  color: #ff3c00;
-  border: 2px solid #ff3c00;
-  transition: 0.3s ease;
-  box-shadow: 0 4px 0 #cc2e00;
+  color: #111;
+  border: 2px solid #111;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background: #ff3c00;
+  background: #111;
   color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(255, 60, 0, 0.4);
+}
+
+/* Status messages */
+.status {
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Price Info */
+.price-info {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
 }
 
 /* Footer */
 footer {
   text-align: center;
-  font-size: 0.85rem;
-  color: #222;
-  padding: 2rem 0;
+  font-size: 0.9rem;
+  color: #444;
+  padding: 3rem 0;
   border-top: 1px solid rgba(0,0,0,0.1);
   margin-top: 4rem;
-}
-
-/* Countdown box */
-.countdown-box {
-  margin-top: 2rem;
-  font-size: 1.3rem;
-  font-weight: bold;
-  background: #fff;
-  color: #ff3c00;
-  padding: 1rem 2rem;
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(255, 60, 0, 0.2);
-  display: inline-block;
 }
 
 /* Tilt cards */
 .tilt {
   transition: transform 0.3s ease;
-  box-shadow: 0 0 15px #ffaa0088;
+  box-shadow: 0 0 15px rgba(255, 160, 0, 0.3);
 }
